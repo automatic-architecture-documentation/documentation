@@ -1,0 +1,51 @@
+name: image-update
+
+on:
+  push:
+    branches: [ master ]
+    paths:
+      - 'src/plantuml/detailed/**'
+
+concurrency:
+  group: image-update
+  cancel-in-progress: false
+
+jobs:
+  update-images:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v4
+      - name: "Setup GIT"
+        shell: bash
+        run: |
+          git config --global user.name "Botty"
+          git config --global user.email "bot@example.com"
+      - name: "Setup Graphviz"
+        shell: bash
+        run: sudo apt -y install graphviz
+      - name: "Setup Java"
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17"
+          distribution: "temurin"
+      - name: "Setup Gradle"
+        uses: gradle/gradle-build-action@v3
+        with:
+          gradle-version: wrapper
+      - name: "Setup Gradle Wrapper"
+        shell: bash
+        run: chmod +x gradlew
+      - name: "Generate Images"
+        shell: bash
+        run: './gradlew --no-daemon generate-images'
+      - name: "Commit Changes"
+        shell: bash
+        run: |
+          git add documentation/**.png
+          git add documentation/**.svg
+          git commit -m "updated images"
+      - name: "Push Changes"
+        shell: bash
+        run: |
+          git push origin HEAD:${{ github.ref_name }}
