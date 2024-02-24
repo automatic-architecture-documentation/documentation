@@ -1,0 +1,6 @@
+@startuml
+'https://plantuml.com/deployment-diagram
+
+rectangle dummy
+
+@enduml
