@@ -1,4 +1,4 @@
-name: image-update
+name: detailed-image-update
 
 on:
   push:
@@ -38,7 +38,7 @@ jobs:
         run: chmod +x gradlew
       - name: "Generate Images"
         shell: bash
-        run: './gradlew --no-daemon generate-images'
+        run: './gradlew --no-daemon generate-detailed-images'
       - name: "Commit Changes"
         shell: bash
         run: |

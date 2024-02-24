@@ -1,0 +1,39 @@
+{
+  "id": "backend-service-1",
+  "contextId": "application",
+  "systemId": "platform",
+  "type": "BACKEND",
+  "relationship": "OWNED",
+  "dependents": [
+    {
+      "id": "frontend",
+      "type": "FRONTEND",
+      "contextId": "application",
+      "systemId": "platform",
+      "relationship": "OWNED"
+    }
+  ],
+  "dependencies": [
+    {
+      "id": "backend-service-1-database",
+      "type": "DATABASE",
+      "contextId": "application",
+      "systemId": "platform",
+      "relationship": "OWNED"
+    },
+    {
+      "id": "backend-service-2",
+      "type": "BACKEND",
+      "contextId": "application",
+      "systemId": "platform",
+      "relationship": "OWNED"
+    },
+    {
+      "id": "external-service-1",
+      "type": "BACKEND",
+      "contextId": null,
+      "systemId": "platform",
+      "relationship": "CLOSE"
+    }
+  ]
+}

@@ -3,13 +3,13 @@
 
 folder "Platform" {
     frame "Application" {
-        rectangle "backend-service-1" as backendservice1 #lightgrey
-        rectangle "backend-service-2" as backendservice2 #lightblue
+        rectangle "Backend Service #1" as backendservice1 #lightgrey
+        rectangle "Backend Service #2" as backendservice2 #skyblue;line.bold
     }
-    rectangle "external-service-2" as externalservice2 #moccasin
+    rectangle "External Service #2" as externalservice2 #moccasin
 }
 folder "Other Project" {
-    rectangle "external-service-3" as externalservice3 #lightcoral
+    rectangle "External Service #3" as externalservice3 #lightcoral
 }
 
 backendservice1 -r-> backendservice2
