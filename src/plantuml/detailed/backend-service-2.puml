@@ -1,0 +1,19 @@
+@startuml
+'https://plantuml.com/deployment-diagram
+
+folder "Platform" {
+    frame "Application" {
+        rectangle "backend-service-1" as backendservice1 #lightgrey
+        rectangle "backend-service-2" as backendservice2 #lightblue
+    }
+    rectangle "external-service-2" as externalservice2 #moccasin
+}
+folder "Other Project" {
+    rectangle "external-service-3" as externalservice3 #lightcoral
+}
+
+backendservice1 -r-> backendservice2
+backendservice2 -d-> externalservice2
+backendservice2 -d-> externalservice3
+
+@enduml
