@@ -17,11 +17,6 @@ jobs:
     steps:
       - name: "Checkout"
         uses: actions/checkout@v4
-      - name: "Setup GIT"
-        shell: bash
-        run: |
-          git config --global user.name "Botty"
-          git config --global user.email "bot@example.com"
       - name: "Setup Graphviz"
         shell: bash
         run: sudo apt -y install graphviz
@@ -39,14 +34,15 @@ jobs:
         run: chmod +x gradlew
       - name: "Generate Images"
         shell: bash
-        run: './gradlew --no-daemon generate-images'
-      - name: "Commit Changes"
+        run: ./gradlew --no-daemon generate-images
+      - name: "Commit & Push Changes"
         shell: bash
         run: |
+          git config --global user.name "Botty"
+          git config --global user.email "bot@example.com"
           git add documentation/**.png
           git add documentation/**.svg
-          git commit -m "updated images"
-      - name: "Push Changes"
-        shell: bash
-        run: |
-          git push origin HEAD:${{ github.ref_name }}
+          git diff --quiet --exit-code --cached || {
+            git commit -m "updated images"
+            git push origin HEAD:${{ github.ref_name }}
+          }
