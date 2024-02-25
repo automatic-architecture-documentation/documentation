@@ -5,19 +5,6 @@ import documentation.model.RootComponent
 import documentation.model.loadComponents
 import net.sourceforge.plantuml.FileFormat
 
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("com.fasterxml.jackson.core:jackson-annotations:2.16.1")
-        classpath("com.fasterxml.jackson.core:jackson-core:2.16.1")
-        classpath("com.fasterxml.jackson.core:jackson-databind:2.16.1")
-        classpath("com.fasterxml.jackson.module:jackson-module-kotlin:2.16.1")
-        classpath("net.sourceforge.plantuml:plantuml:1.2024.3")
-    }
-}
-
 tasks.register("generate-images", GenerateImagesTask::class)
 
 open class GenerateImagesTask : DefaultTask() {
