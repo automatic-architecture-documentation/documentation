@@ -18,21 +18,20 @@ buildscript {
     }
 }
 
-tasks.register("generate-overview-image", GenerateOverviewImageTask::class)
-tasks.register("generate-detailed-images", GenerateDetailedImagesTask::class)
-tasks.register("generate-detailed2-images", GenerateDetailed2ImagesTask::class)
+tasks.register("generate-images", GenerateImagesTask::class)
 
-open class GenerateDetailedImagesTask : DefaultTask() {
+open class GenerateImagesTask : DefaultTask() {
 
     @TaskAction
     fun execute() {
-        generateImages(
-            sourceFolder = File(project.rootDir, "src/plantuml/detailed"),
-            targetFolder = File(project.rootDir, "documentation/detailed")
-        )
+        generateComponentImagesFromPumlFiles()
+        generateComponentImagesFromJsonFiles()
+        generateOverviewImages()
     }
 
-    private fun generateImages(sourceFolder: File, targetFolder: File) {
+    private fun generateComponentImagesFromPumlFiles() {
+        val sourceFolder = File(project.rootDir, "src/plantuml/components")
+        val targetFolder = File(project.rootDir, "documentation/components/puml")
         check(sourceFolder.isDirectory)
         sourceFolder.listFiles()!!
             .filter { file -> file.extension == "puml" }
@@ -41,33 +40,10 @@ open class GenerateDetailedImagesTask : DefaultTask() {
                 generateDiagramImage(inputFile, targetFolder, FileFormat.SVG)
             }
     }
-}
 
-open class GenerateOverviewImageTask : DefaultTask() {
-
-    @TaskAction
-    fun execute() {
-        val sourceFolder = File(project.rootDir, "src/descriptions")
-        val targetFolder = File(project.rootDir, "documentation/overview")
-
-        loadComponents(sourceFolder)
-            .also { generateOverviewDiagram(it, targetFolder) }
-    }
-
-    private fun generateOverviewDiagram(components: List<RootComponent>, targetFolder: File) {
-        val diagramSource = OverviewDiagramGenerator(components).generate()
-
-        generateDiagramImage(diagramSource, targetFolder, "overview", FileFormat.PNG)
-        generateDiagramImage(diagramSource, targetFolder, "overview", FileFormat.SVG)
-    }
-}
-
-open class GenerateDetailed2ImagesTask : DefaultTask() {
-
-    @TaskAction
-    fun execute() {
-        val sourceFolder = File(project.rootDir, "src/descriptions")
-        val targetFolder = File(project.rootDir, "documentation/detailed2")
+    private fun generateComponentImagesFromJsonFiles() {
+        val sourceFolder = File(project.rootDir, "src/json/components")
+        val targetFolder = File(project.rootDir, "documentation/components/json")
 
         loadComponents(sourceFolder)
             .forEach { generateDetailedDiagram(it, targetFolder) }
@@ -78,5 +54,16 @@ open class GenerateDetailed2ImagesTask : DefaultTask() {
 
         generateDiagramImage(diagramSource, targetFolder, component.id, FileFormat.PNG)
         generateDiagramImage(diagramSource, targetFolder, component.id, FileFormat.SVG)
+    }
+
+    private fun generateOverviewImages() {
+        val sourceFolder = File(project.rootDir, "src/json/components")
+        val targetFolder = File(project.rootDir, "documentation/overview")
+
+        val components = loadComponents(sourceFolder)
+        val diagramSource = OverviewDiagramGenerator(components).generate()
+
+        generateDiagramImage(diagramSource, targetFolder, "overview", FileFormat.PNG)
+        generateDiagramImage(diagramSource, targetFolder, "overview", FileFormat.SVG)
     }
 }

@@ -1,10 +1,11 @@
-name: detailed-image-update
+name: image-update
 
 on:
   push:
     branches: [ master ]
     paths:
-      - 'src/plantuml/detailed/**'
+      - 'src/plantuml/**'
+      - 'src/json/**'
 
 concurrency:
   group: image-update
@@ -38,7 +39,7 @@ jobs:
         run: chmod +x gradlew
       - name: "Generate Images"
         shell: bash
-        run: './gradlew --no-daemon generate-detailed-images'
+        run: './gradlew --no-daemon generate-images'
       - name: "Commit Changes"
         shell: bash
         run: |
