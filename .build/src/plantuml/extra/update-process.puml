@@ -1,0 +1,24 @@
+@startuml
+
+actor developer as dev
+participant "'backend-service-1'\nRepository" as sr
+participant "'documentation'\nRepository" as dr
+
+dev -> sr : push some change
+activate sr
+sr -> sr : build application
+sr -> sr : publish 'backend-service-1.json'
+activate sr
+sr -> dr : checkout
+activate dr
+sr <--dr
+deactivate dr
+sr -> dr : commit & push updated 'backend-service-1.json'
+activate dr
+sr --> sr
+deactivate sr
+dr -> dr : generate diagrams, documents, etc.
+deactivate sr
+dr -> dr : commit & push updated files
+
+@enduml

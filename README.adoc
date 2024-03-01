@@ -1,0 +1,32 @@
+= Documentation Repository
+
+This is the repository where the architecture documentation is collected and assets are generated.
+
+== How Does It Work?
+
+This repository has a GitHub Action workflow that reacts to any changes in the `.build` folder on the `master` branch.
+
+The sources of all generated content are located under the `.build/src/**` folder:
+
+* `.build/src/json/components` contains `.json` description files for all components of the documented system
+* `.build/src/plantuml` contains hand-crafted diagrams
+
+If any of the source input files or build script parts are changed, all images and documents are re-generated.
+Any generated files that is different from the previous version is committed and pushed to the `master` branch.
+This way the documentation files are always up-to-date.
+
+=== Automatic Updates
+
+Automatically generating diagrams is nice and all, but the real interesting part is how the `.json` application descriptions are updated.
+
+.Example: 'backend-service-1' is changed
+[.text-center]
+image:diagrams/extra/update-process.svg[]
+
+Each application is responsible for generating and updating its own `.json` file.
+Generally this is done by having the relevant information (e.g. dependents, dependencies, etc.) collected during the application's `master` build and generating the `.json` file.
+If the overall application build (incl. tests) was successful, the `.json` file is automatically committed and pushed to this repository.
+
+Since this commit will constitute a relevant change to the `.build` folder, the generation workflow will be executed, updating all affected images, documents, etc.
+
+

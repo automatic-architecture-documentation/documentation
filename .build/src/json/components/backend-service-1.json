@@ -1,0 +1,44 @@
+{
+  "id": "backend-service-1",
+  "contextId": "application",
+  "systemId": "platform",
+  "type": "BACKEND",
+  "distanceFromUs": "OWNED",
+  "dependents": [
+    {
+      "id": "frontend",
+      "contextId": "application",
+      "systemId": "platform",
+      "type": "FRONTEND",
+      "distanceFromUs": "OWNED"
+    }
+  ],
+  "dependencies": [
+    {
+      "id": "backend-service-2",
+      "contextId": "application",
+      "systemId": "platform",
+      "type": "BACKEND",
+      "distanceFromUs": "OWNED"
+    },
+    {
+      "id": "external-service-1",
+      "systemId": "platform",
+      "type": "BACKEND",
+      "distanceFromUs": "CLOSE"
+    },
+    {
+      "id": "external-service-3",
+      "systemId": "other-project",
+      "type": "BACKEND",
+      "distanceFromUs": "DISTANT"
+    },
+    {
+      "id": "backend-service-1-database",
+      "contextId": "application",
+      "systemId": "platform",
+      "type": "DATABASE",
+      "distanceFromUs": "CLOSE"
+    }
+  ]
+}

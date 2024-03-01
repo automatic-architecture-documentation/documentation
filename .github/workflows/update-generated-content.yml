@@ -1,0 +1,49 @@
+name: update-generated-content
+
+on:
+  push:
+    branches: [ master ]
+    paths:
+      - '.build/**'
+  workflow_dispatch:
+
+concurrency:
+  group: update-generated-content
+  cancel-in-progress: false
+
+jobs:
+  update-generated-content:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v4
+      - name: "Setup Graphviz"
+        shell: bash
+        run: sudo apt -y install graphviz
+      - name: "Setup Java"
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17"
+          distribution: "temurin"
+      - name: "Setup Gradle"
+        uses: gradle/gradle-build-action@v3
+        with:
+          gradle-version: wrapper
+      - name: "Setup Gradle Wrapper"
+        working-directory: .build
+        shell: bash
+        run: chmod +x gradlew
+      - name: "Generate Files"
+        working-directory: .build
+        shell: bash
+        run: ./gradlew --no-daemon generate-files
+      - name: "Commit & Push Changes"
+        shell: bash
+        run: |
+          git config --global user.name "Botty"
+          git config --global user.email "noreply@slu-it.de"
+          git add diagrams/**
+          git diff --quiet --exit-code --cached || {
+            git commit -m "updated generated files"
+            git push origin HEAD:${{ github.ref_name }}
+          }
