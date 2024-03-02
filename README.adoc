@@ -29,4 +29,48 @@ If the overall application build (incl. tests) was successful, the `.json` file 
 
 Since this commit will constitute a relevant change to the `.build` folder, the generation workflow will be executed, updating all affected images, documents, etc.
 
+== Diagram Types
+
+Currently, there are two types of diagrams with a few variations each.
+
+=== "Application Context" Diagram
+
+An "application context" diagram is focused on a specific application and shows that application's dependents and dependencies.
+Dependents are other components of the overall system that are dependent on the focus application (e.g. using its API).
+Dependencies are any components that are used by the focus application, like databases or other applications.
+
+There are currently two variants of this type of diagram.
+
+==== "Simple" Variants
+
+The "simple" variant just renders all the components and their relationships.
+
+.backend-service-1
+[.text-center]
+image:diagrams/components/simple/backend-service-1.svg[]
+
+.backend-service-2
+[.text-center]
+image:diagrams/components/simple/backend-service-2.svg[]
+
+==== "Full" Variants
+
+The "full" variant renders all available data.
+In this example, that will group all components by their `system` and `context` properties.
+
+.backend-service-1
+[.text-center]
+image:diagrams/components/full/backend-service-1.svg[]
+
+.backend-service-2
+[.text-center]
+image:diagrams/components/full/backend-service-2.svg[]
+
+=== "Applications Overview" Diagram
+
+An "applications overview" diagram combines the information of all applications into a single diagram.
+This gives us an overview of our whole system with all communication paths / dependencies.
+
+[.text-center]
+image:diagrams/overview/top-to-bottom/overview.svg[]
 
