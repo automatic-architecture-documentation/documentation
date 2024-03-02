@@ -12,8 +12,8 @@ The sources of all generated content are located under the `.build/src/**` folde
 * `.build/src/plantuml` contains hand-crafted diagrams
 
 If any of the source input files or build script parts are changed, all images and documents are re-generated.
-Any generated files that is different from the previous version is committed and pushed to the `master` branch.
-This way the documentation files are always up-to-date.
+Any generated file that differs from its previous version is committed and pushed to the `master` branch.
+This means documentation files are always up-to-date.
 
 === Automatic Updates
 
