@@ -1,6 +1,6 @@
 {
   "id": "backend-service-2",
-  "contextId": "application",
+  "groupId": "application",
   "systemId": "platform",
   "type": "BACKEND",
   "distanceFromUs": "OWNED",
@@ -8,7 +8,7 @@
     {
       "id": "backend-service-1",
       "type": "BACKEND",
-      "contextId": "application",
+      "groupId": "application",
       "systemId": "platform",
       "distanceFromUs": "OWNED"
     }
@@ -17,14 +17,14 @@
     {
       "id": "external-service-2",
       "type": "BACKEND",
-      "contextId": null,
+      "groupId": null,
       "systemId": "platform",
       "distanceFromUs": "CLOSE"
     },
     {
       "id": "external-service-3",
       "type": "BACKEND",
-      "contextId": null,
+      "groupId": null,
       "systemId": "other-project",
       "distanceFromUs": "DISTANT"
     }

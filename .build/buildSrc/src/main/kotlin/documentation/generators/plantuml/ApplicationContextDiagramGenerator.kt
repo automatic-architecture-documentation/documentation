@@ -1,12 +1,12 @@
 package documentation.generators.plantuml
 
-import documentation.generators.contextName
+import documentation.generators.groupName
 import documentation.generators.systemName
 import documentation.model.Application
 import documentation.model.Component
-import documentation.model.Component.Distance.OWNED
-import documentation.model.Component.Type.DATABASE
+import documentation.model.ComponentType.DATABASE
 import documentation.model.Dependent
+import documentation.model.Distance.OWNED
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
 
@@ -14,14 +14,14 @@ import kotlin.contracts.contract
 class ApplicationContextDiagramGenerator(
     private val application: Application,
     private val includeSystemBoundaries: Boolean,
-    private val includeContextBoundaries: Boolean,
+    private val includeGroupBoundaries: Boolean,
 ) : AbstractDiagramGenerator() {
 
     // DATA PREPARATION
 
     private val components: List<Component>
     private val relationships: List<DiagramRelationship>
-    private val systemsAndContexts: List<Pair<String?, String?>>
+    private val systemsAndGroups: List<Pair<String?, String?>>
 
     init {
         components = buildList {
@@ -39,8 +39,8 @@ class ApplicationContextDiagramGenerator(
                 .forEach(::add)
         }
 
-        systemsAndContexts = components
-            .map { component -> component.systemId to component.contextId }
+        systemsAndGroups = components
+            .map { component -> component.systemId to component.groupId }
             .distinct()
     }
 
@@ -53,17 +53,17 @@ class ApplicationContextDiagramGenerator(
             appendLine()
             appendLine("left to right direction")
             appendLine()
-            systemsAndContexts
-                .forEach { (systemId, contextId) ->
+            systemsAndGroups
+                .forEach { (systemId, groupId) ->
                     if (renderSystemBoundary(systemId)) appendLine("""folder "${systemName(systemId)}" {""")
-                    if (renderContextBoundary(contextId)) appendLine("""frame "${contextName(contextId)}" {""")
+                    if (renderGroupBoundary(groupId)) appendLine("""frame "${groupName(groupId)}" {""")
 
                     components
-                        .filter { it.systemId == systemId && it.contextId == contextId }
+                        .filter { it.systemId == systemId && it.groupId == groupId }
                         .map(::diagramComponent)
                         .forEach { appendComponentLine(it) }
 
-                    if (renderContextBoundary(contextId)) appendLine("}")
+                    if (renderGroupBoundary(groupId)) appendLine("}")
                     if (renderSystemBoundary(systemId)) appendLine("}")
                 }
             appendLine()
@@ -98,7 +98,7 @@ class ApplicationContextDiagramGenerator(
     override fun link(target: Component): String =
         when (target.type) {
             DATABASE -> "-l->"
-            else -> when (includeContextBoundaries) {
+            else -> when (includeGroupBoundaries) {
                 true -> when (target.distanceFromUs) {
                     OWNED -> "-->"
                     else -> "--->"
@@ -115,10 +115,10 @@ class ApplicationContextDiagramGenerator(
         return includeSystemBoundaries && systemId != null
     }
 
-    private fun renderContextBoundary(contextId: String?): Boolean {
+    private fun renderGroupBoundary(groupId: String?): Boolean {
         contract {
-            returns(true) implies (contextId != null)
+            returns(true) implies (groupId != null)
         }
-        return includeSystemBoundaries && contextId != null
+        return includeGroupBoundaries && groupId != null
     }
 }

@@ -54,7 +54,7 @@ private fun generateSimpleApplicationContextDiagram(application: Application, ta
     val generator = ApplicationContextDiagramGenerator(
         application = application,
         includeSystemBoundaries = false,
-        includeContextBoundaries = false
+        includeGroupBoundaries = false
     )
     generateApplicationContextDiagram(application, targetSubFolder, generator)
 }
@@ -64,7 +64,7 @@ private fun generateFullApplicationContextDiagram(application: Application, targ
     val generator = ApplicationContextDiagramGenerator(
         application = application,
         includeSystemBoundaries = true,
-        includeContextBoundaries = true
+        includeGroupBoundaries = true
     )
     generateApplicationContextDiagram(application, targetSubFolder, generator)
 }

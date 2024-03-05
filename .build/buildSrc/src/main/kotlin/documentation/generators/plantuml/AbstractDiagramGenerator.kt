@@ -2,13 +2,15 @@ package documentation.generators.plantuml
 
 import documentation.generators.componentName
 import documentation.model.Component
+import documentation.model.ComponentType
+import documentation.model.Distance
 
 abstract class AbstractDiagramGenerator : DiagramGenerator {
 
     private val invalidIdCharacters = Regex("[^0-9a-z_]")
 
     protected fun diagramDirection(direction: DiagramDirection): String =
-        when(direction) {
+        when (direction) {
             DiagramDirection.TOP_TO_BOTTOM -> "top to bottom direction"
             DiagramDirection.LEFT_TO_RIGHT -> "left to right direction"
         }
@@ -22,7 +24,7 @@ abstract class AbstractDiagramGenerator : DiagramGenerator {
         )
 
     private fun diagramComponentId(component: Component): String =
-        listOfNotNull(component.systemId, component.contextId, component.id)
+        listOfNotNull(component.systemId, component.groupId, component.id)
             .joinToString(separator = "__", transform = ::normalizeIdPart)
 
     private fun normalizeIdPart(value: String): String =
@@ -32,8 +34,8 @@ abstract class AbstractDiagramGenerator : DiagramGenerator {
 
     private fun type(component: Component): String =
         when (component.type) {
-            Component.Type.BACKEND, Component.Type.FRONTEND -> "rectangle"
-            Component.Type.DATABASE -> "database"
+            ComponentType.BACKEND, ComponentType.FRONTEND -> "rectangle"
+            ComponentType.DATABASE -> "database"
             null -> "circle"
         }
 
@@ -41,9 +43,9 @@ abstract class AbstractDiagramGenerator : DiagramGenerator {
 
     protected fun defaultStyle(component: Component) =
         when (component.distanceFromUs) {
-            Component.Distance.OWNED -> "#lightblue"
-            Component.Distance.CLOSE -> "#moccasin"
-            Component.Distance.DISTANT -> "#lightcoral"
+            Distance.OWNED -> "#lightblue"
+            Distance.CLOSE -> "#moccasin"
+            Distance.DISTANT -> "#lightcoral"
             null -> ""
         }
 

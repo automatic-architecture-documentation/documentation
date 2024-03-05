@@ -2,8 +2,8 @@ package documentation.generators.plantuml
 
 import documentation.model.Application
 import documentation.model.Component
-import documentation.model.Component.Type.BACKEND
-import documentation.model.Component.Type.FRONTEND
+import documentation.model.ComponentType.BACKEND
+import documentation.model.ComponentType.FRONTEND
 
 class MultipleApplicationsDiagramGenerator(
     private val applications: List<Application>,
