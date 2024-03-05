@@ -5,6 +5,7 @@ import documentation.generators.systemName
 import documentation.model.Application
 import documentation.model.Component
 import documentation.model.ComponentType.DATABASE
+import documentation.model.Dependency
 import documentation.model.Dependent
 import documentation.model.Distance.OWNED
 import kotlin.contracts.ExperimentalContracts
@@ -15,12 +16,14 @@ class ApplicationContextDiagramGenerator(
     private val application: Application,
     private val includeSystemBoundaries: Boolean,
     private val includeGroupBoundaries: Boolean,
+    private val includeHttpEndpointsNotes: Boolean
 ) : AbstractDiagramGenerator() {
 
     // DATA PREPARATION
 
     private val components: List<Component>
     private val relationships: List<DiagramRelationship>
+    private val notes: List<DiagramNote>
     private val systemsAndGroups: List<Pair<String?, String?>>
 
     init {
@@ -37,6 +40,10 @@ class ApplicationContextDiagramGenerator(
             application.dependencies
                 .map { target -> diagramRelationship(application, target) }
                 .forEach(::add)
+        }
+
+        notes = buildList {
+            addAll(httpEndpointNotes(components))
         }
 
         systemsAndGroups = components
@@ -72,6 +79,11 @@ class ApplicationContextDiagramGenerator(
                     appendRelationshipLine(relationship)
                 }
             appendLine()
+            notes
+                .forEach { note ->
+                    appendNote(note)
+                }
+            appendLine()
             appendLine("@enduml")
         }
 
@@ -85,7 +97,32 @@ class ApplicationContextDiagramGenerator(
             appendLine("""$source $link $target""")
         }
 
+    private fun StringBuilder.appendNote(note: DiagramNote) =
+        with(note) {
+            appendLine("note $position of $target")
+            appendLine(text)
+            appendLine("end note")
+        }
+
     // RENDERING DECISIONS
+
+    private fun httpEndpointNotes(components: List<Component>): List<DiagramNote> =
+        if (includeHttpEndpointsNotes) {
+            components.filterIsInstance<Dependency>()
+                .filter { it.httpEndpoints.isNotEmpty() }
+                .map { dependency -> httpEndpointNote(dependency) }
+        } else {
+            emptyList()
+        }
+
+    private fun httpEndpointNote(dependency: Dependency) =
+        DiagramNote(
+            target = diagramComponentId(dependency),
+            text = dependency.httpEndpoints
+                .joinToString(prefix = "HTTP Endpoints:\n", separator = "\n") { endpoint ->
+                    "${endpoint.method} ${endpoint.path}"
+                }
+        )
 
     override fun style(component: Component): String =
         when {

@@ -8,6 +8,8 @@ import java.io.FileOutputStream
 
 object PlantUmlDiagramGenerator {
 
+    var debug = false
+
     fun generateDiagramAndSaveAsImage(diagramSource: String, outputFolder: File, fileName: String, format: FileFormat) {
         val outputFile = File(outputFolder, fileName + format.fileSuffix)
         val fileFormatOption = FileFormatOption(format, false)
@@ -17,5 +19,11 @@ object PlantUmlDiagramGenerator {
 
         FileOutputStream(outputFile, false)
             .use { reader.outputImage(it, fileFormatOption) }
+
+        if (debug) {
+            val debugFile = File(outputFolder, "$fileName.puml")
+            FileOutputStream(debugFile, false)
+                .use { fos -> fos.bufferedWriter().use { bw -> bw.write(diagramSource) } }
+        }
     }
 }

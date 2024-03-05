@@ -53,10 +53,23 @@ image:diagrams/components/simple/backend-service-1.svg[]
 [.text-center]
 image:diagrams/components/simple/backend-service-2.svg[]
 
+==== "HTTP" Variants
+
+The "http" variant renders all available data related to HTTP communication.
+In this example, this includes the list of all HTTP endpoints used of a dependency.
+
+.backend-service-1
+[.text-center]
+image:diagrams/components/http/backend-service-1.svg[]
+
+.backend-service-2
+[.text-center]
+image:diagrams/components/http/backend-service-2.svg[]
+
 ==== "Full" Variants
 
 The "full" variant renders all available data.
-In this example, that will group all components by their `system` and `context` properties.
+In this example, that will group all components by their `system` and `group` properties, as well as list the used HTTP endpoints of dependencies.
 
 .backend-service-1
 [.text-center]

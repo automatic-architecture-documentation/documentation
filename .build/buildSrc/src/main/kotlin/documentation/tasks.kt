@@ -45,6 +45,7 @@ fun generateComponentDiagramsFromJson(srcFolder: File, rootFolder: File) {
     loadApplications(sourcesFolder)
         .forEach { application ->
             generateSimpleApplicationContextDiagram(application, targetFolder)
+            generateHttpApplicationContextDiagram(application, targetFolder)
             generateFullApplicationContextDiagram(application, targetFolder)
         }
 }
@@ -54,7 +55,19 @@ private fun generateSimpleApplicationContextDiagram(application: Application, ta
     val generator = ApplicationContextDiagramGenerator(
         application = application,
         includeSystemBoundaries = false,
-        includeGroupBoundaries = false
+        includeGroupBoundaries = false,
+        includeHttpEndpointsNotes = false,
+    )
+    generateApplicationContextDiagram(application, targetSubFolder, generator)
+}
+
+private fun generateHttpApplicationContextDiagram(application: Application, targetFolder: File) {
+    val targetSubFolder = File(targetFolder, "http")
+    val generator = ApplicationContextDiagramGenerator(
+        application = application,
+        includeSystemBoundaries = false,
+        includeGroupBoundaries = false,
+        includeHttpEndpointsNotes = true,
     )
     generateApplicationContextDiagram(application, targetSubFolder, generator)
 }
@@ -64,7 +77,8 @@ private fun generateFullApplicationContextDiagram(application: Application, targ
     val generator = ApplicationContextDiagramGenerator(
         application = application,
         includeSystemBoundaries = true,
-        includeGroupBoundaries = true
+        includeGroupBoundaries = true,
+        includeHttpEndpointsNotes = true,
     )
     generateApplicationContextDiagram(application, targetSubFolder, generator)
 }

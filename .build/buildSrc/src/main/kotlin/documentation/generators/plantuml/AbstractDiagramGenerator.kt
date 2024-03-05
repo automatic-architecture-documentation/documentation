@@ -23,7 +23,7 @@ abstract class AbstractDiagramGenerator : DiagramGenerator {
             style = style(component)
         )
 
-    private fun diagramComponentId(component: Component): String =
+    protected fun diagramComponentId(component: Component): String =
         listOfNotNull(component.systemId, component.groupId, component.id)
             .joinToString(separator = "__", transform = ::normalizeIdPart)
 
