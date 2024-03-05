@@ -39,4 +39,7 @@ data class Dependency(
     override val systemId: String?,
     override val type: ComponentType?,
     override val distanceFromUs: Distance?,
+    val httpEndpoints: List<HttpEndpoint> = emptyList(),
 ) : Component
+
+data class HttpEndpoint(val method: String, val path: String)
