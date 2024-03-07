@@ -47,11 +47,11 @@ The "simple" variant just renders all the components and their relationships.
 
 .backend-service-1
 [.text-center]
-image:diagrams/components/simple/backend-service-1.svg[]
+image:diagrams/components/simple_default/backend-service-1.svg[]
 
 .backend-service-2
 [.text-center]
-image:diagrams/components/simple/backend-service-2.svg[]
+image:diagrams/components/simple_default/backend-service-2.svg[]
 
 ==== "HTTP" Variants
 
@@ -60,11 +60,11 @@ In this example, this includes the list of all HTTP endpoints used of a dependen
 
 .backend-service-1
 [.text-center]
-image:diagrams/components/http/backend-service-1.svg[]
+image:diagrams/components/http_poly/backend-service-1.svg[]
 
 .backend-service-2
 [.text-center]
-image:diagrams/components/http/backend-service-2.svg[]
+image:diagrams/components/http_poly/backend-service-2.svg[]
 
 ==== "Full" Variants
 
@@ -73,17 +73,21 @@ In this example, that will group all components by their `system` and `group` pr
 
 .backend-service-1
 [.text-center]
-image:diagrams/components/full/backend-service-1.svg[]
+image:diagrams/components/full_orthogonal/backend-service-1.svg[]
 
 .backend-service-2
 [.text-center]
-image:diagrams/components/full/backend-service-2.svg[]
+image:diagrams/components/full_orthogonal/backend-service-2.svg[]
 
 === "Applications Overview" Diagram
 
 An "applications overview" diagram combines the information of all applications into a single diagram.
 This gives us an overview of our whole system with all communication paths / dependencies.
 
+.top-to-bottom
 [.text-center]
-image:diagrams/overview/top-to-bottom/overview.svg[]
+image:diagrams/overview/top-to-bottom_poly/overview.svg[]
 
+.left-to-right
+[.text-center]
+image:diagrams/overview/left-to-right_poly/overview.svg[]
