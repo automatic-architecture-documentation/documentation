@@ -69,10 +69,17 @@ class ApplicationContextDiagramGenerator(
                     if (renderSystemBoundary(systemId)) appendLine("""folder "${systemName(systemId)}" {""")
                     if (renderGroupBoundary(groupId)) appendLine("""frame "${groupName(groupId)}" {""")
 
-                    components
+                    val componentsOfThisGroup = components
                         .filter { it.systemId == systemId && it.groupId == groupId }
                         .map(::diagramComponent)
-                        .forEach { appendComponentLine(it) }
+                    val componentIdsOfThisGroup = componentsOfThisGroup
+                        .map(DiagramComponent::id)
+                        .toSet()
+                    val notesOfThisGroup = notes
+                        .filter { it.target in componentIdsOfThisGroup }
+
+                    componentsOfThisGroup.forEach { appendComponentLine(it) }
+                    notesOfThisGroup.forEach { appendNote(it) }
 
                     if (renderGroupBoundary(groupId)) appendLine("}")
                     if (renderSystemBoundary(systemId)) appendLine("}")
@@ -81,11 +88,6 @@ class ApplicationContextDiagramGenerator(
             relationships
                 .forEach { relationship ->
                     appendRelationshipLine(relationship)
-                }
-            appendLine()
-            notes
-                .forEach { note ->
-                    appendNote(note)
                 }
             appendLine()
             appendLine("@enduml")
@@ -103,9 +105,11 @@ class ApplicationContextDiagramGenerator(
 
     private fun StringBuilder.appendNote(note: DiagramNote) =
         with(note) {
+            appendLine()
             appendLine("note $position of $target")
             appendLine(text)
             appendLine("end note")
+            appendLine()
         }
 
     // RENDERING DECISIONS
