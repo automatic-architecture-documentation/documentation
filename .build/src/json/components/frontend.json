@@ -11,7 +11,13 @@
       "type": "BACKEND",
       "groupId": "application",
       "systemId": "platform",
-      "distanceFromUs": "OWNED"
+      "distanceFromUs": "OWNED",
+      "httpEndpoints": [
+        {
+          "method": "POST",
+          "path": "/search"
+        }
+      ]
     }
   ]
 }

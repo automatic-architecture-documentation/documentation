@@ -19,14 +19,30 @@
       "type": "BACKEND",
       "groupId": null,
       "systemId": "platform",
-      "distanceFromUs": "CLOSE"
+      "distanceFromUs": "CLOSE",
+      "httpEndpoints": [
+        {
+          "method": "GET",
+          "path": "/users"
+        },
+        {
+          "method": "GET",
+          "path": "/users/{userId}"
+        }
+      ]
     },
     {
       "id": "external-service-3",
       "type": "BACKEND",
       "groupId": null,
       "systemId": "other-project",
-      "distanceFromUs": "DISTANT"
+      "distanceFromUs": "DISTANT",
+      "httpEndpoints": [
+        {
+          "method": "GET",
+          "path": "/bookings"
+        }
+      ]
     }
   ]
 }
