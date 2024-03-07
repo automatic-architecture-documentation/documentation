@@ -44,6 +44,10 @@ Dependencies are any components that are used by the focus application, like dat
 The "simple" variant just renders _all_ components and their relationships.
 It does not include any boundaries or additional data.
 
+.frontend
+[.text-center]
+image:diagrams/components/simple_default/frontend.svg[]
+
 .backend-service-1
 [.text-center]
 image:diagrams/components/simple_default/backend-service-1.svg[]
@@ -58,6 +62,10 @@ The "http" variant renders all available data related to HTTP communication.
 In this example, this includes the list of all HTTP endpoints used of a dependency.
 Dependents and dependencies are limited to _backends_ and _frontends_.
 
+.frontend
+[.text-center]
+image:diagrams/components/http_poly/frontend.svg[]
+
 .backend-service-1
 [.text-center]
 image:diagrams/components/http_poly/backend-service-1.svg[]
@@ -69,6 +77,10 @@ image:diagrams/components/http_poly/backend-service-2.svg[]
 ==== "Full" Variants
 
 The "full" variant renders _all available data_, including grouping all components by their `system` and `group` properties.
+
+.frontend
+[.text-center]
+image:diagrams/components/full_orthogonal/frontend.svg[]
 
 .backend-service-1
 [.text-center]
