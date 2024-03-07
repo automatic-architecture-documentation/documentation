@@ -9,6 +9,8 @@ import documentation.generators.plantuml.LineType.*
 import documentation.generators.plantuml.MultipleApplicationsDiagramGenerator
 import documentation.generators.plantuml.PlantUmlDiagramGenerator.generateDiagramAndSaveAsImage
 import documentation.model.Application
+import documentation.model.ComponentType.BACKEND
+import documentation.model.ComponentType.FRONTEND
 import documentation.model.loadApplications
 import net.sourceforge.plantuml.FileFormat
 import java.io.File
@@ -59,10 +61,9 @@ private fun generateSimpleApplicationContextDiagram(application: Application, ta
         val targetSubFolder = File(targetFolder, "simple_$name")
         val generator = ApplicationContextDiagramGenerator(
             application = application,
-            includeSystemBoundaries = false,
-            includeGroupBoundaries = false,
-            includeHttpEndpointsNotes = false,
-            lineType = lineType,
+            options = ApplicationContextDiagramGenerator.Options(
+                lineType = lineType,
+            ),
         )
         generateApplicationContextDiagram(application, targetSubFolder, generator)
     }
@@ -73,10 +74,11 @@ private fun generateHttpApplicationContextDiagram(application: Application, targ
         val targetSubFolder = File(targetFolder, "http_$name")
         val generator = ApplicationContextDiagramGenerator(
             application = application,
-            includeSystemBoundaries = false,
-            includeGroupBoundaries = false,
-            includeHttpEndpointsNotes = true,
-            lineType = lineType,
+            options = ApplicationContextDiagramGenerator.Options(
+                includedComponentTypes = setOf(BACKEND, FRONTEND),
+                includeHttpEndpointsNotes = true,
+                lineType = lineType,
+            )
         )
         generateApplicationContextDiagram(application, targetSubFolder, generator)
     }
@@ -87,10 +89,12 @@ private fun generateFullApplicationContextDiagram(application: Application, targ
         val targetSubFolder = File(targetFolder, "full_$name")
         val generator = ApplicationContextDiagramGenerator(
             application = application,
-            includeSystemBoundaries = true,
-            includeGroupBoundaries = true,
-            includeHttpEndpointsNotes = true,
-            lineType = lineType,
+            options = ApplicationContextDiagramGenerator.Options(
+                includeSystemBoundaries = true,
+                includeGroupBoundaries = true,
+                includeHttpEndpointsNotes = true,
+                lineType = lineType,
+            )
         )
         generateApplicationContextDiagram(application, targetSubFolder, generator)
     }
@@ -123,8 +127,10 @@ private fun generateLeftToRightOverviewDiagramsFromJson(targetFolder: File, appl
         val targetSubFolder = File(targetFolder, "left-to-right_$name")
         val generator = MultipleApplicationsDiagramGenerator(
             applications = applications,
-            direction = LEFT_TO_RIGHT,
-            lineType = lineType,
+            options = MultipleApplicationsDiagramGenerator.Options(
+                direction = LEFT_TO_RIGHT,
+                lineType = lineType,
+            ),
         )
         generateApplicationsOverviewDiagram(targetSubFolder, generator)
     }
@@ -135,8 +141,10 @@ private fun generateTopToBottomOverviewDiagramsFromJson(targetFolder: File, appl
         val targetSubFolder = File(targetFolder, "top-to-bottom_$name")
         val generator = MultipleApplicationsDiagramGenerator(
             applications = applications,
-            direction = TOP_TO_BOTTOM,
-            lineType = lineType,
+            options = MultipleApplicationsDiagramGenerator.Options(
+                direction = TOP_TO_BOTTOM,
+                lineType = lineType,
+            ),
         )
         generateApplicationsOverviewDiagram(targetSubFolder, generator)
     }

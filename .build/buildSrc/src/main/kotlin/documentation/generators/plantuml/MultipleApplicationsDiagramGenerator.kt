@@ -1,17 +1,22 @@
 package documentation.generators.plantuml
 
+import documentation.generators.plantuml.DiagramDirection.TOP_TO_BOTTOM
 import documentation.model.Application
 import documentation.model.Component
+import documentation.model.ComponentType
 import documentation.model.ComponentType.BACKEND
 import documentation.model.ComponentType.FRONTEND
 
 class MultipleApplicationsDiagramGenerator(
     private val applications: List<Application>,
-    private val direction: DiagramDirection,
-    private val lineType: LineType = LineType.DEFAULT,
+    private val options: Options = Options(),
 ) : AbstractDiagramGenerator() {
 
-    private val relevantComponentTypes = setOf(BACKEND, FRONTEND)
+    data class Options(
+        val direction: DiagramDirection = TOP_TO_BOTTOM,
+        val includedComponentTypes: Set<ComponentType> = setOf(BACKEND, FRONTEND),
+        val lineType: LineType = LineType.DEFAULT,
+    )
 
     // DATA PREPARATION
 
@@ -27,17 +32,17 @@ class MultipleApplicationsDiagramGenerator(
                 .forEach(::add)
             applications.asSequence()
                 .flatMap { it.dependencies }
-                .filter { it.type in relevantComponentTypes }
+                .filter { it.type in options.includedComponentTypes }
                 .filter { it.id !in applicationIds }
                 .distinctBy { it.id }
                 .map(::diagramComponent)
                 .forEach(::add)
         }
         relationships = applications
-            .filter { it.type in relevantComponentTypes }
+            .filter { it.type in options.includedComponentTypes }
             .flatMap { application ->
                 application.dependencies
-                    .filter { it.type in relevantComponentTypes }
+                    .filter { it.type in options.includedComponentTypes }
                     .map { dependency -> application to dependency }
             }
             .map { (source, target) -> diagramRelationship(source, target) }
@@ -50,9 +55,9 @@ class MultipleApplicationsDiagramGenerator(
             appendLine("@startuml")
             appendLine("'https://plantuml.com/deployment-diagram")
             appendLine()
-            appendLine(direction)
+            appendLine(options.direction)
             appendLine()
-            appendLine(lineType)
+            appendLine(options.lineType)
             appendLine()
             components.forEach { appendComponentLine(it) }
             appendLine()
@@ -74,6 +79,5 @@ class MultipleApplicationsDiagramGenerator(
     // RENDERING DECISIONS
 
     override fun style(component: Component) = defaultStyle(component)
-
     override fun link(target: Component) = "-->"
 }

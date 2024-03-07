@@ -3,11 +3,8 @@ package documentation.generators.plantuml
 import documentation.generators.groupName
 import documentation.generators.plantuml.DiagramDirection.LEFT_TO_RIGHT
 import documentation.generators.systemName
-import documentation.model.Application
-import documentation.model.Component
+import documentation.model.*
 import documentation.model.ComponentType.DATABASE
-import documentation.model.Dependency
-import documentation.model.Dependent
 import documentation.model.Distance.OWNED
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
@@ -15,11 +12,16 @@ import kotlin.contracts.contract
 @OptIn(ExperimentalContracts::class)
 class ApplicationContextDiagramGenerator(
     private val application: Application,
-    private val includeSystemBoundaries: Boolean,
-    private val includeGroupBoundaries: Boolean,
-    private val includeHttpEndpointsNotes: Boolean,
-    private val lineType: LineType = LineType.DEFAULT,
+    private val options: Options = Options(),
 ) : AbstractDiagramGenerator() {
+
+    data class Options(
+        val includedComponentTypes: Set<ComponentType> = ComponentType.entries.toSet(),
+        val includeSystemBoundaries: Boolean = false,
+        val includeGroupBoundaries: Boolean = false,
+        val includeHttpEndpointsNotes: Boolean = false,
+        val lineType: LineType = LineType.DEFAULT,
+    )
 
     // DATA PREPARATION
 
@@ -29,17 +31,20 @@ class ApplicationContextDiagramGenerator(
     private val systemsAndGroups: List<Pair<String?, String?>>
 
     init {
+        val dependents = application.dependents.filter(::typeIsIncluded)
+        val dependencies = application.dependencies.filter(::typeIsIncluded)
+
         components = buildList {
-            addAll(application.dependents)
+            addAll(dependents)
             add(application)
-            addAll(application.dependencies)
+            addAll(dependencies)
         }
 
         relationships = buildList {
-            application.dependents
+            dependents
                 .map { source -> diagramRelationship(source, application) }
                 .forEach(::add)
-            application.dependencies
+            dependencies
                 .map { target -> diagramRelationship(application, target) }
                 .forEach(::add)
         }
@@ -53,6 +58,9 @@ class ApplicationContextDiagramGenerator(
             .distinct()
     }
 
+    private fun typeIsIncluded(component: Component): Boolean =
+        component.type in options.includedComponentTypes
+
     // RENDERING
 
     override fun plantUmlSource(): String =
@@ -62,7 +70,7 @@ class ApplicationContextDiagramGenerator(
             appendLine()
             appendLine(LEFT_TO_RIGHT)
             appendLine()
-            appendLine(lineType)
+            appendLine(options.lineType)
             appendLine()
             systemsAndGroups
                 .forEach { (systemId, groupId) ->
@@ -115,7 +123,7 @@ class ApplicationContextDiagramGenerator(
     // RENDERING DECISIONS
 
     private fun httpEndpointNotes(components: List<Component>): List<DiagramNote> =
-        if (includeHttpEndpointsNotes) {
+        if (options.includeHttpEndpointsNotes) {
             components.filterIsInstance<Dependency>()
                 .filter { it.httpEndpoints.isNotEmpty() }
                 .map { dependency -> httpEndpointNote(dependency) }
@@ -143,7 +151,7 @@ class ApplicationContextDiagramGenerator(
     override fun link(target: Component): String =
         when (target.type) {
             DATABASE -> "-l->"
-            else -> when (includeGroupBoundaries) {
+            else -> when (options.includeGroupBoundaries) {
                 true -> when (target.distanceFromUs) {
                     OWNED -> "-->"
                     else -> "--->"
@@ -157,13 +165,13 @@ class ApplicationContextDiagramGenerator(
         contract {
             returns(true) implies (systemId != null)
         }
-        return includeSystemBoundaries && systemId != null
+        return options.includeSystemBoundaries && systemId != null
     }
 
     private fun renderGroupBoundary(groupId: String?): Boolean {
         contract {
             returns(true) implies (groupId != null)
         }
-        return includeGroupBoundaries && groupId != null
+        return options.includeGroupBoundaries && groupId != null
     }
 }

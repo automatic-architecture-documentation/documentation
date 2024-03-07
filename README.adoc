@@ -39,11 +39,10 @@ An "application context" diagram is focused on a specific application and shows 
 Dependents are other components of the overall system that are dependent on the focus application (e.g. using its API).
 Dependencies are any components that are used by the focus application, like databases or other applications.
 
-There are currently two variants of this type of diagram.
-
 ==== "Simple" Variants
 
-The "simple" variant just renders all the components and their relationships.
+The "simple" variant just renders _all_ components and their relationships.
+It does not include any boundaries or additional data.
 
 .backend-service-1
 [.text-center]
@@ -57,6 +56,7 @@ image:diagrams/components/simple_default/backend-service-2.svg[]
 
 The "http" variant renders all available data related to HTTP communication.
 In this example, this includes the list of all HTTP endpoints used of a dependency.
+Dependents and dependencies are limited to _backends_ and _frontends_.
 
 .backend-service-1
 [.text-center]
@@ -68,8 +68,7 @@ image:diagrams/components/http_poly/backend-service-2.svg[]
 
 ==== "Full" Variants
 
-The "full" variant renders all available data.
-In this example, that will group all components by their `system` and `group` properties, as well as list the used HTTP endpoints of dependencies.
+The "full" variant renders _all available data_, including grouping all components by their `system` and `group` properties.
 
 .backend-service-1
 [.text-center]
