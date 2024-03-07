@@ -4,6 +4,7 @@ import documentation.generators.plantuml.ApplicationContextDiagramGenerator
 import documentation.generators.plantuml.DiagramDirection.LEFT_TO_RIGHT
 import documentation.generators.plantuml.DiagramDirection.TOP_TO_BOTTOM
 import documentation.generators.plantuml.DiagramGenerator
+import documentation.generators.plantuml.LineType
 import documentation.generators.plantuml.MultipleApplicationsDiagramGenerator
 import documentation.generators.plantuml.PlantUmlDiagramGenerator.generateDiagramAndSaveAsImage
 import documentation.model.Application
@@ -68,6 +69,7 @@ private fun generateHttpApplicationContextDiagram(application: Application, targ
         includeSystemBoundaries = false,
         includeGroupBoundaries = false,
         includeHttpEndpointsNotes = true,
+        lineType = LineType.POLY,
     )
     generateApplicationContextDiagram(application, targetSubFolder, generator)
 }
@@ -79,6 +81,7 @@ private fun generateFullApplicationContextDiagram(application: Application, targ
         includeSystemBoundaries = true,
         includeGroupBoundaries = true,
         includeHttpEndpointsNotes = true,
+        lineType = LineType.ORTHOGONAL,
     )
     generateApplicationContextDiagram(application, targetSubFolder, generator)
 }
@@ -109,7 +112,8 @@ private fun generateLeftToRightOverviewDiagramsFromJson(targetFolder: File, appl
     val targetSubFolder = File(targetFolder, "left-to-right")
     val generator = MultipleApplicationsDiagramGenerator(
         applications = applications,
-        direction = LEFT_TO_RIGHT
+        direction = LEFT_TO_RIGHT,
+        lineType = LineType.POLY,
     )
     generateApplicationsOverviewDiagram(targetSubFolder, generator)
 }
@@ -118,7 +122,8 @@ private fun generateTopToBottomOverviewDiagramsFromJson(targetFolder: File, appl
     val targetSubFolder = File(targetFolder, "top-to-bottom")
     val generator = MultipleApplicationsDiagramGenerator(
         applications = applications,
-        direction = TOP_TO_BOTTOM
+        direction = TOP_TO_BOTTOM,
+        lineType = LineType.ORTHOGONAL,
     )
     generateApplicationsOverviewDiagram(targetSubFolder, generator)
 }

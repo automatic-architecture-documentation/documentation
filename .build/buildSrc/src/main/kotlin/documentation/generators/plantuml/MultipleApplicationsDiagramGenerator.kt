@@ -8,6 +8,7 @@ import documentation.model.ComponentType.FRONTEND
 class MultipleApplicationsDiagramGenerator(
     private val applications: List<Application>,
     private val direction: DiagramDirection,
+    private val lineType: LineType = LineType.DEFAULT,
 ) : AbstractDiagramGenerator() {
 
     private val relevantComponentTypes = setOf(BACKEND, FRONTEND)
@@ -49,7 +50,9 @@ class MultipleApplicationsDiagramGenerator(
             appendLine("@startuml")
             appendLine("'https://plantuml.com/deployment-diagram")
             appendLine()
-            appendLine(diagramDirection(direction))
+            appendLine(direction)
+            appendLine()
+            appendLine(lineType)
             appendLine()
             components.forEach { appendComponentLine(it) }
             appendLine()

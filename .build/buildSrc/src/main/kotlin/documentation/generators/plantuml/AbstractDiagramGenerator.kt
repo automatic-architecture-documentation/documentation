@@ -9,12 +9,6 @@ abstract class AbstractDiagramGenerator : DiagramGenerator {
 
     private val invalidIdCharacters = Regex("[^0-9a-z_]")
 
-    protected fun diagramDirection(direction: DiagramDirection): String =
-        when (direction) {
-            DiagramDirection.TOP_TO_BOTTOM -> "top to bottom direction"
-            DiagramDirection.LEFT_TO_RIGHT -> "left to right direction"
-        }
-
     protected fun diagramComponent(component: Component) =
         DiagramComponent(
             id = diagramComponentId(component),

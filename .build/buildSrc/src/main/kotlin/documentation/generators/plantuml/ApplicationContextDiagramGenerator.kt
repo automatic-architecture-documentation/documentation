@@ -1,6 +1,7 @@
 package documentation.generators.plantuml
 
 import documentation.generators.groupName
+import documentation.generators.plantuml.DiagramDirection.LEFT_TO_RIGHT
 import documentation.generators.systemName
 import documentation.model.Application
 import documentation.model.Component
@@ -16,7 +17,8 @@ class ApplicationContextDiagramGenerator(
     private val application: Application,
     private val includeSystemBoundaries: Boolean,
     private val includeGroupBoundaries: Boolean,
-    private val includeHttpEndpointsNotes: Boolean
+    private val includeHttpEndpointsNotes: Boolean,
+    private val lineType: LineType = LineType.DEFAULT,
 ) : AbstractDiagramGenerator() {
 
     // DATA PREPARATION
@@ -58,7 +60,9 @@ class ApplicationContextDiagramGenerator(
             appendLine("@startuml")
             appendLine("'https://plantuml.com/deployment-diagram")
             appendLine()
-            appendLine("left to right direction")
+            appendLine(LEFT_TO_RIGHT)
+            appendLine()
+            appendLine(lineType)
             appendLine()
             systemsAndGroups
                 .forEach { (systemId, groupId) ->
