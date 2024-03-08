@@ -3,6 +3,7 @@ package documentation.generators.plantuml
 import documentation.generators.componentName
 import documentation.model.Component
 import documentation.model.ComponentType
+import documentation.model.Dependency
 import documentation.model.Distance
 
 abstract class AbstractDiagramGenerator : DiagramGenerator {
@@ -47,8 +48,15 @@ abstract class AbstractDiagramGenerator : DiagramGenerator {
         DiagramRelationship(
             source = diagramComponentId(source),
             target = diagramComponentId(target),
-            link = link(target)
+            link = link(target),
+            label = linkLabel(source, target),
         )
 
     protected abstract fun link(target: Component): String
+    protected open fun linkLabel(source: Component, target: Component): String? = null
+
+    protected fun credentialsLabel(dependency: Dependency): String {
+        if (dependency.credentials.isEmpty()) return "?"
+        return dependency.credentials.joinToString(separator = ", ") { it.label }
+    }
 }

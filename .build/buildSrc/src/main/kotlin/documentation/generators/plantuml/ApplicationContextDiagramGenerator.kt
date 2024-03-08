@@ -4,6 +4,7 @@ import documentation.generators.groupName
 import documentation.generators.plantuml.DiagramDirection.LEFT_TO_RIGHT
 import documentation.generators.systemName
 import documentation.model.*
+import documentation.model.ComponentType.BACKEND
 import documentation.model.ComponentType.DATABASE
 import documentation.model.Distance.OWNED
 import kotlin.contracts.ExperimentalContracts
@@ -19,6 +20,7 @@ class ApplicationContextDiagramGenerator(
         val includedComponentTypes: Set<ComponentType> = ComponentType.entries.toSet(),
         val includeSystemBoundaries: Boolean = false,
         val includeGroupBoundaries: Boolean = false,
+        val includeCredentials: Boolean = false,
         val includeHttpEndpointsNotes: Boolean = false,
         val lineType: LineType = LineType.DEFAULT,
     )
@@ -108,7 +110,7 @@ class ApplicationContextDiagramGenerator(
 
     private fun StringBuilder.appendRelationshipLine(relationship: DiagramRelationship) =
         with(relationship) {
-            appendLine("""$source $link $target""")
+            appendLine("""$source $link $target ${label?.let { ":$it" } ?: ""}""")
         }
 
     private fun StringBuilder.appendNote(note: DiagramNote) =
@@ -159,6 +161,20 @@ class ApplicationContextDiagramGenerator(
 
                 false -> "-->"
             }
+        }
+
+    override fun linkLabel(source: Component, target: Component): String? =
+        when (target) {
+            is Dependency -> when {
+                options.includeCredentials -> when (target.type) {
+                    BACKEND -> credentialsLabel(target)
+                    else -> null
+                }
+
+                else -> null
+            }
+
+            else -> null
         }
 
     private fun renderSystemBoundary(systemId: String?): Boolean {

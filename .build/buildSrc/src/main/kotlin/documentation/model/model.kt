@@ -39,7 +39,9 @@ data class Dependency(
     override val systemId: String?,
     override val type: ComponentType?,
     override val distanceFromUs: Distance?,
+    val credentials: List<Credentials> = emptyList(),
     val httpEndpoints: List<HttpEndpoint> = emptyList(),
 ) : Component
 
 data class HttpEndpoint(val method: String, val path: String)
+enum class Credentials(val label: String) { JWT("JWT"), BASIC_AUTH("Basic-Auth") }

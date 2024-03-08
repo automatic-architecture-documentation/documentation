@@ -20,6 +20,9 @@
       "groupId": null,
       "systemId": "platform",
       "distanceFromUs": "CLOSE",
+      "credentials": [
+        "JWT"
+      ],
       "httpEndpoints": [
         {
           "method": "GET",
@@ -37,6 +40,9 @@
       "groupId": null,
       "systemId": "other-project",
       "distanceFromUs": "DISTANT",
+      "credentials": [
+        "BASIC_AUTH"
+      ],
       "httpEndpoints": [
         {
           "method": "GET",

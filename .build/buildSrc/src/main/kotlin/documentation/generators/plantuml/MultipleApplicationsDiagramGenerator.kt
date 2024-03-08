@@ -6,6 +6,7 @@ import documentation.model.Component
 import documentation.model.ComponentType
 import documentation.model.ComponentType.BACKEND
 import documentation.model.ComponentType.FRONTEND
+import documentation.model.Dependency
 
 class MultipleApplicationsDiagramGenerator(
     private val applications: List<Application>,
@@ -15,6 +16,7 @@ class MultipleApplicationsDiagramGenerator(
     data class Options(
         val direction: DiagramDirection = TOP_TO_BOTTOM,
         val includedComponentTypes: Set<ComponentType> = setOf(BACKEND, FRONTEND),
+        val includeCredentials: Boolean = false,
         val lineType: LineType = LineType.DEFAULT,
     )
 
@@ -73,11 +75,25 @@ class MultipleApplicationsDiagramGenerator(
 
     private fun StringBuilder.appendRelationshipLine(relationship: DiagramRelationship) =
         with(relationship) {
-            appendLine("""$source $link $target""")
+            appendLine("""$source $link $target ${label?.let { ": $it" } ?: ""}""")
         }
 
     // RENDERING DECISIONS
 
     override fun style(component: Component) = defaultStyle(component)
     override fun link(target: Component) = "-->"
+
+    override fun linkLabel(source: Component, target: Component): String? =
+        when (target) {
+            is Dependency -> when {
+                options.includeCredentials -> when (target.type) {
+                    BACKEND -> credentialsLabel(target)
+                    else -> null
+                }
+
+                else -> null
+            }
+
+            else -> null
+        }
 }

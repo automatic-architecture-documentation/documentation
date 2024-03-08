@@ -10,7 +10,8 @@ data class DiagramComponent(
 data class DiagramRelationship(
     val source: String,
     val target: String,
-    val link: String
+    val link: String,
+    val label: String?,
 )
 
 data class DiagramNote(

@@ -12,6 +12,9 @@
       "groupId": "application",
       "systemId": "platform",
       "distanceFromUs": "OWNED",
+      "credentials": [
+        "JWT"
+      ],
       "httpEndpoints": [
         {
           "method": "POST",

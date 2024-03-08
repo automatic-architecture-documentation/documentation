@@ -76,6 +76,7 @@ private fun generateHttpApplicationContextDiagram(application: Application, targ
             application = application,
             options = ApplicationContextDiagramGenerator.Options(
                 includedComponentTypes = setOf(BACKEND, FRONTEND),
+                includeCredentials = true,
                 includeHttpEndpointsNotes = true,
                 lineType = lineType,
             )
@@ -92,6 +93,7 @@ private fun generateFullApplicationContextDiagram(application: Application, targ
             options = ApplicationContextDiagramGenerator.Options(
                 includeSystemBoundaries = true,
                 includeGroupBoundaries = true,
+                includeCredentials = true,
                 includeHttpEndpointsNotes = true,
                 lineType = lineType,
             )
@@ -130,6 +132,7 @@ private fun generateLeftToRightOverviewDiagramsFromJson(targetFolder: File, appl
             options = MultipleApplicationsDiagramGenerator.Options(
                 direction = LEFT_TO_RIGHT,
                 lineType = lineType,
+                includeCredentials = true,
             ),
         )
         generateApplicationsOverviewDiagram(targetSubFolder, generator)
@@ -144,6 +147,7 @@ private fun generateTopToBottomOverviewDiagramsFromJson(targetFolder: File, appl
             options = MultipleApplicationsDiagramGenerator.Options(
                 direction = TOP_TO_BOTTOM,
                 lineType = lineType,
+                includeCredentials = true,
             ),
         )
         generateApplicationsOverviewDiagram(targetSubFolder, generator)
