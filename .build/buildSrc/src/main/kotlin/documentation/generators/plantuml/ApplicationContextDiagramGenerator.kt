@@ -133,14 +133,16 @@ class ApplicationContextDiagramGenerator(
             emptyList()
         }
 
-    private fun httpEndpointNote(dependency: Dependency) =
-        DiagramNote(
+    private fun httpEndpointNote(dependency: Dependency): DiagramNote {
+        val methodLength = dependency.httpEndpoints.maxOf { it.method.length }
+        return DiagramNote(
             target = diagramComponentId(dependency),
             text = dependency.httpEndpoints
-                .joinToString(prefix = "HTTP Endpoints:\n", separator = "\n") { endpoint ->
-                    "${endpoint.method} ${endpoint.path}"
+                .joinToString(prefix = "**HTTP Endpoints:**\n", separator = "\n") { endpoint ->
+                    "\"\"${endpoint.method.padEnd(methodLength, ' ')} ${endpoint.path}\"\""
                 }
         )
+    }
 
     override fun style(component: Component): String =
         when {

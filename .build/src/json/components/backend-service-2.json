@@ -25,7 +25,7 @@
       ],
       "httpEndpoints": [
         {
-          "method": "GET",
+          "method": "POST",
           "path": "/users"
         },
         {
