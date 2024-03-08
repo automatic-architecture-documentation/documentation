@@ -12,13 +12,15 @@
     "distanceFromUs" : "OWNED"
   } ],
   "dependencies" : [ {
-    "id" : "external-service-1",
+    "id" : "backend-service-2",
+    "groupId" : "application",
     "systemId" : "platform",
     "type" : "BACKEND",
-    "distanceFromUs" : "CLOSE",
+    "distanceFromUs" : "OWNED",
+    "credentials" : [ "JWT" ],
     "httpEndpoints" : [ {
       "method" : "GET",
-      "path" : "/foo/{id}"
+      "path" : "/bookings/{userId}"
     } ]
   }, {
     "id" : "backend-service-1-database",
@@ -27,14 +29,14 @@
     "type" : "DATABASE",
     "distanceFromUs" : "OWNED"
   }, {
-    "id" : "backend-service-2",
-    "groupId" : "application",
+    "id" : "external-service-1",
     "systemId" : "platform",
     "type" : "BACKEND",
-    "distanceFromUs" : "OWNED",
+    "distanceFromUs" : "CLOSE",
+    "credentials" : [ "JWT" ],
     "httpEndpoints" : [ {
       "method" : "GET",
-      "path" : "/bar/{id}"
+      "path" : "/invoices/{userId}/{state}"
     } ]
   } ]
 }
