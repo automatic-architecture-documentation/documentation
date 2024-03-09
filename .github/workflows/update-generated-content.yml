@@ -43,6 +43,7 @@ jobs:
           git config --global user.name "Botty"
           git config --global user.email "noreply@slu-it.de"
           git add diagrams/**
+          git add documents/**
           git diff --quiet --exit-code --cached || {
             git commit -m "updated generated files"
             git push origin HEAD:${{ github.ref_name }}

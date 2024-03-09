@@ -1,11 +1,14 @@
 package documentation
 
+import documentation.generators.asciidoc.EndpointsOverviewGenerator
 import documentation.generators.plantuml.ApplicationContextDiagramGenerator
 import documentation.generators.plantuml.DiagramDirection.LEFT_TO_RIGHT
 import documentation.generators.plantuml.DiagramDirection.TOP_TO_BOTTOM
 import documentation.generators.plantuml.DiagramGenerator
 import documentation.generators.plantuml.LineType
-import documentation.generators.plantuml.LineType.*
+import documentation.generators.plantuml.LineType.DEFAULT
+import documentation.generators.plantuml.LineType.ORTHOGONAL
+import documentation.generators.plantuml.LineType.POLY
 import documentation.generators.plantuml.MultipleApplicationsDiagramGenerator
 import documentation.generators.plantuml.PlantUmlDiagramGenerator.generateDiagramAndSaveAsImage
 import documentation.model.Application
@@ -14,6 +17,7 @@ import documentation.model.ComponentType.FRONTEND
 import documentation.model.loadApplications
 import net.sourceforge.plantuml.FileFormat
 import java.io.File
+import java.io.FileOutputStream
 
 private val lineTypes: List<LineType> = listOf(DEFAULT, POLY, ORTHOGONAL)
 
@@ -160,8 +164,32 @@ private fun generateApplicationsOverviewDiagram(targetFolder: File, generator: D
     generateDiagramAndSaveAsImage(diagramSource, targetFolder, "overview", FileFormat.SVG)
 }
 
+// USED ENDPOINTS
+
+fun generateEndpointOverviewDocumentFromJson(srcFolder: File, rootFolder: File) {
+    val sourcesFolder = File(srcFolder, "json/components")
+    val targetFolder = File(rootFolder, "documents")
+    val targetFile = File(targetFolder, "endpoint-overview.adoc")
+
+    val applications = loadApplications(sourcesFolder)
+
+    val generator = EndpointsOverviewGenerator(applications)
+    val source = generator.asciiDocSource()
+
+    createOrReplaceFile(targetFile, source)
+}
+
 // COMMON
 
 fun lineTypes(block: (LineType, String) -> Unit) {
     lineTypes.forEach { block(it, it.name.lowercase()) }
+}
+
+private fun createOrReplaceFile(file: File, source: String) {
+    file.parentFile.mkdirs()
+    FileOutputStream(file, false).use { fos ->
+        fos.bufferedWriter().use { bw ->
+            bw.write(source)
+        }
+    }
 }
