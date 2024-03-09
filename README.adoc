@@ -29,9 +29,16 @@ If the overall application build (incl. tests) was successful, the `.json` file 
 
 Since this commit will constitute a relevant change to the `.build` folder, the generation workflow will be executed, updating all affected images, documents, etc.
 
-== Diagram Types
+== Document Types
 
-Currently, there are two types of diagrams with a few variations each.
+=== Used Endpoints Overview
+
+This document lists all known components who have documented endpoints used by any of "our" applications.
+For each component, the used endpoints and who is using them are listed.
+
+Take a look link:documents/endpoint-overview.adoc[here].
+
+== Diagram Types
 
 === "Application Context" Diagram
 
