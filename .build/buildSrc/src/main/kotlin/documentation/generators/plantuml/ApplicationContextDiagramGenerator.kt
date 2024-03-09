@@ -3,9 +3,12 @@ package documentation.generators.plantuml
 import documentation.generators.groupName
 import documentation.generators.plantuml.DiagramDirection.LEFT_TO_RIGHT
 import documentation.generators.systemName
-import documentation.model.*
-import documentation.model.ComponentType.BACKEND
+import documentation.model.Application
+import documentation.model.Component
+import documentation.model.ComponentType
 import documentation.model.ComponentType.DATABASE
+import documentation.model.Dependency
+import documentation.model.Dependent
 import documentation.model.Distance.OWNED
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
@@ -14,16 +17,16 @@ import kotlin.contracts.contract
 class ApplicationContextDiagramGenerator(
     private val application: Application,
     private val options: Options = Options(),
-) : AbstractDiagramGenerator() {
+) : AbstractDiagramGenerator(options) {
 
     data class Options(
-        val includedComponentTypes: Set<ComponentType> = ComponentType.entries.toSet(),
+        override val lineType: LineType = LineType.DEFAULT,
+        override val includedComponentTypes: Set<ComponentType> = ComponentType.entries.toSet(),
+        override val includeCredentials: Boolean = false,
         val includeSystemBoundaries: Boolean = false,
         val includeGroupBoundaries: Boolean = false,
-        val includeCredentials: Boolean = false,
         val includeHttpEndpointsNotes: Boolean = false,
-        val lineType: LineType = LineType.DEFAULT,
-    )
+    ) : DiagramGeneratorOptions
 
     // DATA PREPARATION
 
@@ -62,6 +65,15 @@ class ApplicationContextDiagramGenerator(
 
     private fun typeIsIncluded(component: Component): Boolean =
         component.type in options.includedComponentTypes
+
+    private fun httpEndpointNotes(components: List<Component>): List<DiagramNote> =
+        if (options.includeHttpEndpointsNotes) {
+            components.filterIsInstance<Dependency>()
+                .filter { it.httpEndpoints.isNotEmpty() }
+                .map { dependency -> DiagramNote.httpEndpoints(dependency) }
+        } else {
+            emptyList()
+        }
 
     // RENDERING
 
@@ -103,53 +115,24 @@ class ApplicationContextDiagramGenerator(
             appendLine("@enduml")
         }
 
-    private fun StringBuilder.appendComponentLine(component: DiagramComponent) =
-        with(component) {
-            appendLine("""$type "$name" as $id $style""")
-        }
-
-    private fun StringBuilder.appendRelationshipLine(relationship: DiagramRelationship) =
-        with(relationship) {
-            appendLine("""$source $link $target ${label?.let { ":$it" } ?: ""}""")
-        }
-
-    private fun StringBuilder.appendNote(note: DiagramNote) =
-        with(note) {
-            appendLine()
-            appendLine("note $position of $target")
-            appendLine(text)
-            appendLine("end note")
-            appendLine()
-        }
-
-    // RENDERING DECISIONS
-
-    private fun httpEndpointNotes(components: List<Component>): List<DiagramNote> =
-        if (options.includeHttpEndpointsNotes) {
-            components.filterIsInstance<Dependency>()
-                .filter { it.httpEndpoints.isNotEmpty() }
-                .map { dependency -> httpEndpointNote(dependency) }
-        } else {
-            emptyList()
-        }
-
-    private fun httpEndpointNote(dependency: Dependency): DiagramNote {
-        val methodLength = dependency.httpEndpoints.maxOf { it.method.length }
-        return DiagramNote(
-            target = diagramComponentId(dependency),
-            text = dependency.httpEndpoints
-                .joinToString(prefix = "**HTTP Endpoints:**\n", separator = "\n") { endpoint ->
-                    "\"\"${endpoint.method.padEnd(methodLength, ' ')} ${endpoint.path}\"\""
-                }
-        )
+    private fun renderSystemBoundary(systemId: String?): Boolean {
+        contract { returns(true) implies (systemId != null) }
+        return options.includeSystemBoundaries && systemId != null
     }
+
+    private fun renderGroupBoundary(groupId: String?): Boolean {
+        contract { returns(true) implies (groupId != null) }
+        return options.includeGroupBoundaries && groupId != null
+    }
+
+    // RENDERING OVERRIDES
 
     override fun style(component: Component): String =
         when {
             component is Application -> "#skyblue;line.bold"
             component is Dependent -> "#lightgrey"
             component.type == DATABASE -> ""
-            else -> defaultStyle(component)
+            else -> super.style(component)
         }
 
     override fun link(target: Component): String =
@@ -164,32 +147,4 @@ class ApplicationContextDiagramGenerator(
                 false -> "-->"
             }
         }
-
-    override fun linkLabel(source: Component, target: Component): String? =
-        when (target) {
-            is Dependency -> when {
-                options.includeCredentials -> when (target.type) {
-                    BACKEND -> credentialsLabel(target)
-                    else -> null
-                }
-
-                else -> null
-            }
-
-            else -> null
-        }
-
-    private fun renderSystemBoundary(systemId: String?): Boolean {
-        contract {
-            returns(true) implies (systemId != null)
-        }
-        return options.includeSystemBoundaries && systemId != null
-    }
-
-    private fun renderGroupBoundary(groupId: String?): Boolean {
-        contract {
-            returns(true) implies (groupId != null)
-        }
-        return options.includeGroupBoundaries && groupId != null
-    }
 }

@@ -2,25 +2,21 @@ package documentation.generators.plantuml
 
 import documentation.generators.plantuml.DiagramDirection.TOP_TO_BOTTOM
 import documentation.model.Application
-import documentation.model.Component
 import documentation.model.ComponentType
 import documentation.model.ComponentType.BACKEND
 import documentation.model.ComponentType.FRONTEND
-import documentation.model.Dependency
 
 class MultipleApplicationsDiagramGenerator(
     private val applications: List<Application>,
     private val options: Options = Options(),
-) : AbstractDiagramGenerator() {
+) : AbstractDiagramGenerator(options) {
 
     data class Options(
         val direction: DiagramDirection = TOP_TO_BOTTOM,
-        val includedComponentTypes: Set<ComponentType> = setOf(BACKEND, FRONTEND),
-        val includeCredentials: Boolean = false,
-        val lineType: LineType = LineType.DEFAULT,
-    )
-
-    // DATA PREPARATION
+        override val lineType: LineType = LineType.DEFAULT,
+        override val includedComponentTypes: Set<ComponentType> = setOf(BACKEND, FRONTEND),
+        override val includeCredentials: Boolean = false,
+    ) : DiagramGeneratorOptions
 
     private val components: List<DiagramComponent>
     private val relationships: List<DiagramRelationship>
@@ -50,8 +46,6 @@ class MultipleApplicationsDiagramGenerator(
             .map { (source, target) -> diagramRelationship(source, target) }
     }
 
-    // RENDERING
-
     override fun plantUmlSource(): String =
         buildString {
             appendLine("@startuml")
@@ -66,34 +60,5 @@ class MultipleApplicationsDiagramGenerator(
             relationships.forEach { appendRelationshipLine(it) }
             appendLine()
             appendLine("@enduml")
-        }
-
-    private fun StringBuilder.appendComponentLine(component: DiagramComponent) =
-        with(component) {
-            appendLine("""$type "$name" as $id $style""")
-        }
-
-    private fun StringBuilder.appendRelationshipLine(relationship: DiagramRelationship) =
-        with(relationship) {
-            appendLine("""$source $link $target ${label?.let { ": $it" } ?: ""}""")
-        }
-
-    // RENDERING DECISIONS
-
-    override fun style(component: Component) = defaultStyle(component)
-    override fun link(target: Component) = "-->"
-
-    override fun linkLabel(source: Component, target: Component): String? =
-        when (target) {
-            is Dependency -> when {
-                options.includeCredentials -> when (target.type) {
-                    BACKEND -> credentialsLabel(target)
-                    else -> null
-                }
-
-                else -> null
-            }
-
-            else -> null
         }
 }
