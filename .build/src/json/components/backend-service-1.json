@@ -10,9 +10,6 @@
     "systemId" : "platform",
     "type" : "FRONTEND",
     "distanceFromUs" : "OWNED"
-  }, {
-    "id" : "external-service-x",
-    "type" : "BACKEND"
   } ],
   "dependencies" : [ {
     "id" : "backend-service-2",
