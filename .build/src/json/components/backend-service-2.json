@@ -1,15 +1,11 @@
 {
   "id": "backend-service-2",
-  "groupId": "application",
-  "systemId": "platform",
   "type": "BACKEND",
   "distanceFromUs": "OWNED",
   "dependents": [
     {
       "id": "backend-service-1",
       "type": "BACKEND",
-      "groupId": "application",
-      "systemId": "platform",
       "distanceFromUs": "OWNED"
     }
   ],
@@ -17,8 +13,6 @@
     {
       "id": "external-service-2",
       "type": "BACKEND",
-      "groupId": null,
-      "systemId": "platform",
       "distanceFromUs": "CLOSE",
       "credentials": [
         "JWT"
@@ -37,8 +31,6 @@
     {
       "id": "external-service-3",
       "type": "BACKEND",
-      "groupId": null,
-      "systemId": "other-project",
       "distanceFromUs": "DISTANT",
       "credentials": [
         "BASIC_AUTH"

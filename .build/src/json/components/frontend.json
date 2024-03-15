@@ -1,16 +1,12 @@
 {
   "id": "frontend",
   "type": "FRONTEND",
-  "groupId": "application",
-  "systemId": "platform",
   "distanceFromUs": "OWNED",
   "dependents": [],
   "dependencies": [
     {
       "id": "backend-service-1",
       "type": "BACKEND",
-      "groupId": "application",
-      "systemId": "platform",
       "distanceFromUs": "OWNED",
       "credentials": [
         "JWT"
