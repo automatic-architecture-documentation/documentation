@@ -1,10 +1,10 @@
 package documentation.generators.plantuml
 
-import documentation.generators.componentName
 import documentation.model.Component
 import documentation.model.ComponentType
 import documentation.model.Dependency
 import documentation.model.Distance
+import documentation.model.componentName
 
 abstract class AbstractDiagramGenerator(
     private val options: DiagramGeneratorOptions

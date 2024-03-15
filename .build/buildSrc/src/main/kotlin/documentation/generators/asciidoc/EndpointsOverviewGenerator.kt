@@ -1,6 +1,5 @@
 package documentation.generators.asciidoc
 
-import documentation.generators.componentName
 import documentation.model.Application
 import documentation.model.ComponentType.BACKEND
 import documentation.model.Dependency
@@ -8,6 +7,7 @@ import documentation.model.Distance.CLOSE
 import documentation.model.Distance.DISTANT
 import documentation.model.Distance.OWNED
 import documentation.model.HttpEndpoint
+import documentation.model.componentName
 
 class EndpointsOverviewGenerator(applications: List<Application>) {
 

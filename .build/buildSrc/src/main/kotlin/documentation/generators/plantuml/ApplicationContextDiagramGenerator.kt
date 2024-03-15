@@ -1,8 +1,6 @@
 package documentation.generators.plantuml
 
-import documentation.generators.groupName
 import documentation.generators.plantuml.DiagramDirection.LEFT_TO_RIGHT
-import documentation.generators.systemName
 import documentation.model.Application
 import documentation.model.Component
 import documentation.model.ComponentType
@@ -10,6 +8,8 @@ import documentation.model.ComponentType.DATABASE
 import documentation.model.Dependency
 import documentation.model.Dependent
 import documentation.model.Distance.OWNED
+import documentation.model.groupName
+import documentation.model.systemName
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
 

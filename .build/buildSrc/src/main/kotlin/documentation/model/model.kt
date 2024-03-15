@@ -1,19 +1,24 @@
 package documentation.model
 
+import com.fasterxml.jackson.annotation.JsonIgnore
+
 // (!) The content of this file is copied from repository to repository.
 // It is the model used by the various generation Gradle tasks and is the same for all repositories.
 // In a real project this would likely be packaged as library package and distributed using some kind of registry.
 
 sealed interface Component {
     val id: String
-    val groupId: String?
-    val systemId: String?
     val type: ComponentType?
     val distanceFromUs: Distance?
-}
 
-enum class ComponentType { BACKEND, FRONTEND, DATABASE }
-enum class Distance { OWNED, CLOSE, DISTANT }
+    @get:JsonIgnore
+    val groupId: String?
+        get() = groupIdOfComponent(id)
+
+    @get:JsonIgnore
+    val systemId: String?
+        get() = systemIdOfComponent(id)
+}
 
 data class Application(
     override val id: String,
@@ -43,5 +48,8 @@ data class Dependency(
     val httpEndpoints: List<HttpEndpoint> = emptyList(),
 ) : Component
 
-data class HttpEndpoint(val method: String, val path: String)
+enum class ComponentType { BACKEND, FRONTEND, DATABASE }
+enum class Distance { OWNED, CLOSE, DISTANT }
 enum class Credentials(val label: String) { JWT("JWT"), BASIC_AUTH("Basic-Auth") }
+
+data class HttpEndpoint(val method: String, val path: String)
