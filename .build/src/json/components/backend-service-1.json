@@ -1,20 +1,23 @@
 {
   "id" : "backend-service-1",
-  "groupId" : "application",
-  "systemId" : "platform",
   "type" : "BACKEND",
   "distanceFromUs" : "OWNED",
   "dependents" : [ {
     "id" : "frontend",
-    "groupId" : "application",
-    "systemId" : "platform",
     "type" : "FRONTEND",
     "distanceFromUs" : "OWNED"
   } ],
   "dependencies" : [ {
+    "id" : "external-service-1",
+    "type" : "BACKEND",
+    "distanceFromUs" : "CLOSE",
+    "credentials" : [ "JWT" ],
+    "httpEndpoints" : [ {
+      "method" : "GET",
+      "path" : "/invoices/{userId}/{state}"
+    } ]
+  }, {
     "id" : "backend-service-2",
-    "groupId" : "application",
-    "systemId" : "platform",
     "type" : "BACKEND",
     "distanceFromUs" : "OWNED",
     "credentials" : [ "JWT" ],
@@ -24,19 +27,7 @@
     } ]
   }, {
     "id" : "backend-service-1-database",
-    "groupId" : "application",
-    "systemId" : "platform",
     "type" : "DATABASE",
     "distanceFromUs" : "OWNED"
-  }, {
-    "id" : "external-service-1",
-    "systemId" : "platform",
-    "type" : "BACKEND",
-    "distanceFromUs" : "CLOSE",
-    "credentials" : [ "JWT" ],
-    "httpEndpoints" : [ {
-      "method" : "GET",
-      "path" : "/invoices/{userId}/{state}"
-    } ]
   } ]
 }
