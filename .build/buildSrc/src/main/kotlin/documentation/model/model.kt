@@ -22,8 +22,6 @@ sealed interface Component {
 
 data class Application(
     override val id: String,
-    override val groupId: String?,
-    override val systemId: String?,
     override val type: ComponentType?,
     override val distanceFromUs: Distance?,
     val dependents: List<Dependent> = emptyList(),
@@ -32,16 +30,12 @@ data class Application(
 
 data class Dependent(
     override val id: String,
-    override val groupId: String?,
-    override val systemId: String?,
     override val type: ComponentType?,
     override val distanceFromUs: Distance?,
 ) : Component
 
 data class Dependency(
     override val id: String,
-    override val groupId: String?,
-    override val systemId: String?,
     override val type: ComponentType?,
     override val distanceFromUs: Distance?,
     val credentials: List<Credentials> = emptyList(),
