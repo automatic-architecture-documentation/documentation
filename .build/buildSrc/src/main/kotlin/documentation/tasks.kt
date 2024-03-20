@@ -55,6 +55,7 @@ fun generateComponentDiagramsFromJson(srcFolder: File, rootFolder: File) {
     loadApplications(sourcesFolder)
         .forEach { application ->
             generateSimpleApplicationContextDiagram(application, targetFolder)
+            generateBoundaryApplicationContextDiagram(application, targetFolder)
             generateHttpApplicationContextDiagram(application, targetFolder)
             generateFullApplicationContextDiagram(application, targetFolder)
         }
@@ -68,6 +69,20 @@ private fun generateSimpleApplicationContextDiagram(application: Application, ta
             options = ApplicationContextDiagramGenerator.Options(
                 lineType = lineType,
             ),
+        )
+        generateApplicationContextDiagram(application, targetSubFolder, generator)
+    }
+}
+
+private fun generateBoundaryApplicationContextDiagram(application: Application, targetFolder: File) {
+    lineTypes { lineType, name ->
+        val targetSubFolder = File(targetFolder, "boundary_$name")
+        val generator = ApplicationContextDiagramGenerator(
+            application = application,
+            options = ApplicationContextDiagramGenerator.Options(
+                includeSystemBoundaries = true,
+                lineType = lineType,
+            )
         )
         generateApplicationContextDiagram(application, targetSubFolder, generator)
     }
