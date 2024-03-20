@@ -81,6 +81,7 @@ private fun generateBoundaryApplicationContextDiagram(application: Application, 
             application = application,
             options = ApplicationContextDiagramGenerator.Options(
                 includeSystemBoundaries = true,
+                includeGroupBoundaries = true,
                 lineType = lineType,
             )
         )
