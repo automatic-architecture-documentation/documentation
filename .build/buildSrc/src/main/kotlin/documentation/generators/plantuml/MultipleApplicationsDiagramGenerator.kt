@@ -59,6 +59,8 @@ class MultipleApplicationsDiagramGenerator(
             appendLine()
             relationships.forEach { appendRelationshipLine(it) }
             appendLine()
+            appendLegend(applications)
+            appendLine()
             appendLine("@enduml")
         }
 }

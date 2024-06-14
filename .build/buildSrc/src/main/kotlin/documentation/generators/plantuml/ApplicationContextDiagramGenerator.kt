@@ -112,6 +112,8 @@ class ApplicationContextDiagramGenerator(
                     appendRelationshipLine(relationship)
                 }
             appendLine()
+            appendLegend(application)
+            appendLine()
             appendLine("@enduml")
         }
 
