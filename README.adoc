@@ -55,13 +55,13 @@ It does not include any boundaries or additional data.
 [.text-center]
 image:diagrams/components/simple_default/frontend.svg[]
 
-.backend-service-1
+.order-service
 [.text-center]
-image:diagrams/components/simple_default/backend-service-1.svg[]
+image:diagrams/components/simple_default/order-service.svg[]
 
-.backend-service-2
+.inventory-service
 [.text-center]
-image:diagrams/components/simple_default/backend-service-2.svg[]
+image:diagrams/components/simple_default/inventory-service.svg[]
 
 ==== "HTTP" Variants
 
@@ -73,13 +73,13 @@ Dependents and dependencies are limited to _backends_ and _frontends_.
 [.text-center]
 image:diagrams/components/http_poly/frontend.svg[]
 
-.backend-service-1
+.order-service
 [.text-center]
-image:diagrams/components/http_poly/backend-service-1.svg[]
+image:diagrams/components/http_poly/order-service.svg[]
 
-.backend-service-2
+.inventory-service
 [.text-center]
-image:diagrams/components/http_poly/backend-service-2.svg[]
+image:diagrams/components/http_poly/inventory-service.svg[]
 
 ==== "Full" Variants
 
@@ -89,13 +89,13 @@ The "full" variant renders _all available data_, including grouping all componen
 [.text-center]
 image:diagrams/components/full_orthogonal/frontend.svg[]
 
-.backend-service-1
+.order-service
 [.text-center]
-image:diagrams/components/full_orthogonal/backend-service-1.svg[]
+image:diagrams/components/full_orthogonal/order-service.svg[]
 
-.backend-service-2
+.inventory-service
 [.text-center]
-image:diagrams/components/full_orthogonal/backend-service-2.svg[]
+image:diagrams/components/full_orthogonal/inventory-service.svg[]
 
 === "Applications Overview" Diagram
 

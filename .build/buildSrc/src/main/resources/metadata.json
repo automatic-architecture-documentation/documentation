@@ -31,6 +31,11 @@
       "systemId": "platform"
     },
     {
+      "id": "payment-service",
+      "name": "Payment Service",
+      "systemId": "platform"
+    },
+    {
       "id": "notification-service",
       "name": "Notification Service",
       "systemId": "platform"
