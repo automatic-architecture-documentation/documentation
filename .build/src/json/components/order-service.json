@@ -1,0 +1,36 @@
+{
+  "id" : "order-service",
+  "type" : "BACKEND",
+  "distanceFromUs" : "OWNED",
+  "dependents" : [ {
+    "id" : "frontend",
+    "type" : "FRONTEND",
+    "distanceFromUs" : "OWNED"
+  } ],
+  "dependencies" : [ {
+    "id" : "order-database",
+    "type" : "DATABASE",
+    "distanceFromUs" : "OWNED"
+  }, {
+    "id" : "payment-service",
+    "type" : "BACKEND",
+    "distanceFromUs" : "CLOSE",
+    "credentials" : [ "JWT" ],
+    "httpEndpoints" : [ {
+      "method" : "POST",
+      "path" : "/payments"
+    } ]
+  }, {
+    "id" : "inventory-service",
+    "type" : "BACKEND",
+    "distanceFromUs" : "OWNED",
+    "credentials" : [ "JWT" ],
+    "httpEndpoints" : [ {
+      "method" : "GET",
+      "path" : "/inventory/{productId}"
+    }, {
+      "method" : "POST",
+      "path" : "/inventory/{productId}/reserve"
+    } ]
+  } ]
+}
