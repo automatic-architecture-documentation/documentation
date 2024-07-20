@@ -14,6 +14,11 @@ NOTE: This overview includes all endpoints _known_ to be called.
 
 * `GET /bookings/{userId}` used by _Backend Service #1_
 
+**inventory-service**
+
+* `GET /inventory/{productId}` used by _order-service_
+* `POST /inventory/{productId}/reserve` used by _order-service_
+
 
 == Components Close to Us
 
@@ -26,6 +31,10 @@ NOTE: This overview includes all endpoints _known_ to be called.
 
 * `POST /users` used by _Backend Service #2_
 * `GET /users/{userId}` used by _Backend Service #2_
+
+**payment-service**
+
+* `POST /payments` used by _order-service_
 
 
 == Components Distant from Us
