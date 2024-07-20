@@ -7,36 +7,37 @@
       "systemId": "platform"
     },
     {
-      "id": "backend-service-1",
-      "name": "Backend Service #1",
+      "id": "order-service",
+      "name": "Order Service",
       "groupId": "application",
       "systemId": "platform"
     },
     {
-      "id": "backend-service-1-database",
+      "id": "order-database",
       "name": "database",
       "groupId": "application",
       "systemId": "platform"
     },
     {
-      "id": "backend-service-2",
-      "name": "Backend Service #2",
+      "id": "inventory-service",
+      "name": "Inventory Service",
       "groupId": "application",
       "systemId": "platform"
     },
     {
-      "id": "external-service-1",
-      "name": "External Service #1",
+      "id": "inventory-database",
+      "name": "database",
+      "groupId": "application",
       "systemId": "platform"
     },
     {
-      "id": "external-service-2",
-      "name": "External Service #2",
+      "id": "notification-service",
+      "name": "Notification Service",
       "systemId": "platform"
     },
     {
-      "id": "external-service-3",
-      "name": "External Service #3",
+      "id": "warehouse-service",
+      "name": "Warehouse Service",
       "systemId": "other-project"
     }
   ],

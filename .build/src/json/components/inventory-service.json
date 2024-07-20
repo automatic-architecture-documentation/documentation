@@ -1,17 +1,22 @@
 {
-  "id": "backend-service-2",
+  "id": "inventory-service",
   "type": "BACKEND",
   "distanceFromUs": "OWNED",
   "dependents": [
     {
-      "id": "backend-service-1",
+      "id": "order-service",
       "type": "BACKEND",
       "distanceFromUs": "OWNED"
     }
   ],
   "dependencies": [
     {
-      "id": "external-service-2",
+      "id": "inventory-database",
+      "type": "DATABASE",
+      "distanceFromUs": "OWNED"
+    },
+    {
+      "id": "notification-service",
       "type": "BACKEND",
       "distanceFromUs": "CLOSE",
       "credentials": [
@@ -20,16 +25,12 @@
       "httpEndpoints": [
         {
           "method": "POST",
-          "path": "/users"
-        },
-        {
-          "method": "GET",
-          "path": "/users/{userId}"
+          "path": "/notifications/low-stock"
         }
       ]
     },
     {
-      "id": "external-service-3",
+      "id": "warehouse-service",
       "type": "BACKEND",
       "distanceFromUs": "DISTANT",
       "credentials": [
@@ -38,7 +39,7 @@
       "httpEndpoints": [
         {
           "method": "GET",
-          "path": "/bookings"
+          "path": "/warehouses/stock/{productId}"
         }
       ]
     }

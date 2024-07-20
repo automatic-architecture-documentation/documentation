@@ -5,7 +5,7 @@
   "dependents": [],
   "dependencies": [
     {
-      "id": "backend-service-1",
+      "id": "order-service",
       "type": "BACKEND",
       "distanceFromUs": "OWNED",
       "credentials": [
@@ -13,8 +13,8 @@
       ],
       "httpEndpoints": [
         {
-          "method": "POST",
-          "path": "/search"
+          "method": "DELETE",
+          "path": "/orders/{orderId}"
         }
       ]
     }
