@@ -23,7 +23,7 @@ NOTE: This overview includes all endpoints _known_ to be called.
 
 * `POST /notifications/low-stock` used by _Inventory Service_
 
-**payment-service**
+**Payment Service**
 
 * `POST /payments` used by _Order Service_
 
