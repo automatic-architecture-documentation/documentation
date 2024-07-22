@@ -1,6 +1,7 @@
 import documentation.generateComponentDiagramsFromJson
 import documentation.generateDiagramsFromPlantUml
 import documentation.generateEndpointOverviewDocumentFromJson
+import documentation.generateEventsOverviewDocumentFromJson
 import documentation.generateOverviewDiagramsFromJson
 
 tasks.register("generateFiles") {
@@ -11,5 +12,6 @@ tasks.register("generateFiles") {
         generateComponentDiagramsFromJson(srcFolder, rootFolder)
         generateOverviewDiagramsFromJson(srcFolder, rootFolder)
         generateEndpointOverviewDocumentFromJson(srcFolder, rootFolder)
+        generateEventsOverviewDocumentFromJson(srcFolder, rootFolder)
     }
 }
