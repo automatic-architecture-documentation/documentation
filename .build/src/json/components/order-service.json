@@ -32,5 +32,76 @@
       "method" : "POST",
       "path" : "/inventory/{productId}/reserve"
     } ]
+  } ],
+  "events" : [ {
+    "name" : "Order Canceled",
+    "type" : "orders.canceled",
+    "description" : "Emitted whenever an order is canceled.",
+    "example" : "{\n  \"id\" : \"4c97c099-0c00-4e56-841d-fbfe81770936\",\n  \"timestamp\" : \"2024-07-22T12:34:56.789Z\",\n  \"order\" : {\n    \"orderId\" : \"a64914f7-7404-4e85-8e1a-778068fae307\",\n    \"customerId\" : \"ed2a43d7-e49b-408d-8b5f-e2e2305954c2\",\n    \"status\" : \"PROCESSING\"\n  },\n  \"eventName\" : \"Order Canceled\",\n  \"eventType\" : \"orders.canceled\"\n}",
+    "fields" : [ {
+      "property" : "id",
+      "type" : "UUID4",
+      "nullable" : false,
+      "description" : "The unique ID of the event."
+    }, {
+      "property" : "timestamp",
+      "type" : "ISO-8601 Date+Time (UTC)",
+      "nullable" : false,
+      "description" : "The exact instant the event occurred at its source."
+    }, {
+      "property" : "order",
+      "type" : "Object",
+      "nullable" : false
+    }, {
+      "property" : "order.orderId",
+      "type" : "UUID4",
+      "nullable" : false,
+      "description" : "The ID of the order."
+    }, {
+      "property" : "order.customerId",
+      "type" : "UUID4",
+      "nullable" : false,
+      "description" : "The ID of the customer that placed the order."
+    }, {
+      "property" : "order.status",
+      "type" : "Enumeration",
+      "nullable" : false,
+      "description" : "The status of the order. Might have one of the following values: PLACED, PROCESSING, COMPLETED, CANCELLED"
+    } ]
+  }, {
+    "name" : "Order Placed",
+    "type" : "orders.placed",
+    "description" : "Emitted whenever a new order is placed.",
+    "example" : "{\n  \"id\" : \"3d6fd447-a311-4028-8248-356e3621d450\",\n  \"timestamp\" : \"2024-07-22T12:34:56.789Z\",\n  \"order\" : {\n    \"orderId\" : \"a64914f7-7404-4e85-8e1a-778068fae307\",\n    \"customerId\" : \"ed2a43d7-e49b-408d-8b5f-e2e2305954c2\",\n    \"status\" : \"PLACED\"\n  },\n  \"eventName\" : \"Order Placed\",\n  \"eventType\" : \"orders.placed\"\n}",
+    "fields" : [ {
+      "property" : "id",
+      "type" : "UUID4",
+      "nullable" : false,
+      "description" : "The unique ID of the event."
+    }, {
+      "property" : "timestamp",
+      "type" : "ISO-8601 Date+Time (UTC)",
+      "nullable" : false,
+      "description" : "The exact instant the event occurred at its source."
+    }, {
+      "property" : "order",
+      "type" : "Object",
+      "nullable" : false
+    }, {
+      "property" : "order.orderId",
+      "type" : "UUID4",
+      "nullable" : false,
+      "description" : "The ID of the order."
+    }, {
+      "property" : "order.customerId",
+      "type" : "UUID4",
+      "nullable" : false,
+      "description" : "The ID of the customer that placed the order."
+    }, {
+      "property" : "order.status",
+      "type" : "Enumeration",
+      "nullable" : false,
+      "description" : "The status of the order. Might have one of the following values: PLACED, PROCESSING, COMPLETED, CANCELLED"
+    } ]
   } ]
 }
