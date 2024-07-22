@@ -9,6 +9,8 @@
 
 Emitted whenever an order is canceled.
 
+Type / Routing Key: `orders.canceled`
+
 .Order Canceled Example
 [source,json]
 ----
@@ -63,6 +65,8 @@ Emitted whenever an order is canceled.
 === Order Placed
 
 Emitted whenever a new order is placed.
+
+Type / Routing Key: `orders.placed`
 
 .Order Placed Example
 [source,json]
