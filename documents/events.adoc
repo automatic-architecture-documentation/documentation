@@ -1,0 +1,117 @@
+:toc: left
+:toclevels: 2
+
+= Events
+
+== Order Service
+
+=== Order Canceled
+
+Emitted whenever an order is canceled.
+
+.Order Canceled Example
+[source,json]
+----
+{
+  "id" : "4c97c099-0c00-4e56-841d-fbfe81770936",
+  "timestamp" : "2024-07-22T12:34:56.789Z",
+  "order" : {
+    "orderId" : "a64914f7-7404-4e85-8e1a-778068fae307",
+    "customerId" : "ed2a43d7-e49b-408d-8b5f-e2e2305954c2",
+    "status" : "PROCESSING"
+  }
+}
+----
+
+.Order Canceled Field Description
+[width=100%, cols="~,~,~,~"]
+|===
+|Property |Type |Nullable? |Description
+
+|`id`
+|UUID4
+|false
+|The unique ID of the event.
+
+|`timestamp`
+|ISO-8601 Date+Time (UTC)
+|false
+|The exact instant the event occurred at its source.
+
+|`order`
+|Object
+|false
+|
+
+|`order.orderId`
+|UUID4
+|false
+|The ID of the order.
+
+|`order.customerId`
+|UUID4
+|false
+|The ID of the customer that placed the order.
+
+|`order.status`
+|Enumeration
+|false
+|The status of the order. Might have one of the following values: PLACED, PROCESSING, COMPLETED, CANCELLED
+
+|===
+
+=== Order Placed
+
+Emitted whenever a new order is placed.
+
+.Order Placed Example
+[source,json]
+----
+{
+  "id" : "3d6fd447-a311-4028-8248-356e3621d450",
+  "timestamp" : "2024-07-22T12:34:56.789Z",
+  "order" : {
+    "orderId" : "a64914f7-7404-4e85-8e1a-778068fae307",
+    "customerId" : "ed2a43d7-e49b-408d-8b5f-e2e2305954c2",
+    "status" : "PLACED"
+  }
+}
+----
+
+.Order Placed Field Description
+[width=100%, cols="~,~,~,~"]
+|===
+|Property |Type |Nullable? |Description
+
+|`id`
+|UUID4
+|false
+|The unique ID of the event.
+
+|`timestamp`
+|ISO-8601 Date+Time (UTC)
+|false
+|The exact instant the event occurred at its source.
+
+|`order`
+|Object
+|false
+|
+
+|`order.orderId`
+|UUID4
+|false
+|The ID of the order.
+
+|`order.customerId`
+|UUID4
+|false
+|The ID of the customer that placed the order.
+
+|`order.status`
+|Enumeration
+|false
+|The status of the order. Might have one of the following values: PLACED, PROCESSING, COMPLETED, CANCELLED
+
+|===
+
