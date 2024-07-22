@@ -31,6 +31,12 @@ Since this commit will constitute a relevant change to the `.build` folder, the 
 
 == Document Types
 
+=== Events Overview
+
+This document lists all known events that are emitted by any of "our" applications.
+
+Take a look link:documents/events.adoc[here].
+
 === Used Endpoints Overview
 
 This document lists all known components who have documented endpoints used by any of "our" applications.
@@ -52,15 +58,12 @@ The "simple" variant just renders _all_ components and their relationships.
 It does not include any boundaries or additional data.
 
 .frontend
-[.text-center]
 image:diagrams/components/simple_default/frontend.svg[]
 
 .order-service
-[.text-center]
 image:diagrams/components/simple_default/order-service.svg[]
 
 .inventory-service
-[.text-center]
 image:diagrams/components/simple_default/inventory-service.svg[]
 
 ==== "HTTP" Variants
@@ -70,15 +73,12 @@ In this example, this includes the list of all HTTP endpoints used of a dependen
 Dependents and dependencies are limited to _backends_ and _frontends_.
 
 .frontend
-[.text-center]
 image:diagrams/components/http_poly/frontend.svg[]
 
 .order-service
-[.text-center]
 image:diagrams/components/http_poly/order-service.svg[]
 
 .inventory-service
-[.text-center]
 image:diagrams/components/http_poly/inventory-service.svg[]
 
 ==== "Full" Variants
@@ -86,15 +86,12 @@ image:diagrams/components/http_poly/inventory-service.svg[]
 The "full" variant renders _all available data_, including grouping all components by their `system` and `group` properties.
 
 .frontend
-[.text-center]
 image:diagrams/components/full_orthogonal/frontend.svg[]
 
 .order-service
-[.text-center]
 image:diagrams/components/full_orthogonal/order-service.svg[]
 
 .inventory-service
-[.text-center]
 image:diagrams/components/full_orthogonal/inventory-service.svg[]
 
 === "Applications Overview" Diagram
@@ -103,9 +100,7 @@ An "applications overview" diagram combines the information of all applications 
 This gives us an overview of our whole system with all communication paths / dependencies.
 
 .top-to-bottom
-[.text-center]
 image:diagrams/overview/top-to-bottom_poly/overview.svg[]
 
 .left-to-right
-[.text-center]
 image:diagrams/overview/left-to-right_poly/overview.svg[]
