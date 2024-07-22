@@ -29,6 +29,8 @@ class EventsOverviewGenerator(applications: List<Application>) {
                             appendLine()
                             appendLine(event.description)
                             appendLine()
+                            appendLine("Type / Routing Key: `${event.type}`")
+                            appendLine()
                             appendLine(".${event.name} Example")
                             appendLine("[source,json]")
                             appendLine("----")
