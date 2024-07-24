@@ -37,12 +37,12 @@ This document lists all known events that are emitted by any of "our" applicatio
 
 Take a look link:documents/events.adoc[here].
 
-=== Used Endpoints Overview
+=== Endpoints Overview
 
 This document lists all known components who have documented endpoints used by any of "our" applications.
 For each component, the used endpoints and who is using them are listed.
 
-Take a look link:documents/endpoint.adoc[here].
+Take a look link:documents/endpoints.adoc[here].
 
 == Diagram Types
 
