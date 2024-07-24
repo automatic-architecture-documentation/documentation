@@ -186,7 +186,7 @@ private fun generateApplicationsOverviewDiagram(targetFolder: File, generator: D
 fun generateEndpointOverviewDocumentFromJson(srcFolder: File, rootFolder: File) {
     val sourcesFolder = File(srcFolder, "json/components")
     val targetFolder = File(rootFolder, "documents")
-    val targetFile = File(targetFolder, "endpoint-overview.adoc")
+    val targetFile = File(targetFolder, "endpoints.adoc")
 
     val applications = loadApplications(sourcesFolder)
 

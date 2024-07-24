@@ -42,7 +42,7 @@ Take a look link:documents/events.adoc[here].
 This document lists all known components who have documented endpoints used by any of "our" applications.
 For each component, the used endpoints and who is using them are listed.
 
-Take a look link:documents/endpoint-overview.adoc[here].
+Take a look link:documents/endpoint.adoc[here].
 
 == Diagram Types
 

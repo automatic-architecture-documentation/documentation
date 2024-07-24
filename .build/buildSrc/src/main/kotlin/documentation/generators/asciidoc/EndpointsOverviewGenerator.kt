@@ -26,6 +26,9 @@ class EndpointsOverviewGenerator(applications: List<Application>) {
                 .filter { dependency -> dependency.httpEndpoints.isNotEmpty() }
                 .sortedBy { dependency -> componentName(dependency.id) }
 
+            appendLine(":toc: left")
+            appendLine(":toclevels: 2")
+            appendLine()
             appendLine("= Used Endpoints")
             appendLine()
             appendLine("NOTE: This overview includes all endpoints _known_ to be called.")
@@ -64,7 +67,7 @@ class EndpointsOverviewGenerator(applications: List<Application>) {
             .sortedBy { componentName(it.id) }
             .forEach { (id, endpoints) ->
                 appendLine()
-                appendLine("**${componentName(id)}**")
+                appendLine("=== ${componentName(id)}")
                 appendLine()
                 endpoints
                     .sortedWith(compareBy(HttpEndpoint::path, HttpEndpoint::method))
