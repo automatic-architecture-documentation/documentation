@@ -17,40 +17,41 @@ This means documentation files are always up-to-date.
 
 === Automatic Updates
 
-Automatically generating diagrams is nice and all, but the real interesting part is how the `.json` application descriptions are updated.
+Automatically generating diagrams is nice and all, but the real interesting part is how the `.json` component descriptions are updated.
 
 .Example: 'backend-service-1' is changed
 [.text-center]
 image:diagrams/extra/update-process.svg[]
 
-Each application is responsible for generating and updating its own `.json` file.
-Generally this is done by having the relevant information (e.g. dependents, dependencies, etc.) collected during the application's `master` build and generating the `.json` file.
-If the overall application build (incl. tests) was successful, the `.json` file is automatically committed and pushed to this repository.
+Each component generates the parts of its overall description during its `master` build and uploading it with a specific artifact name.
+The combining of those files into the actual component description however is done using a link:.github/actions/update-component/action.yml[GitHub action] provided by this repository.
+That actions downloads that artifact, checks out this repository and executes a Gradle task that combines the different parts into a single file.
+If this file is different from its current version it is committed.
 
-Since this commit will constitute a relevant change to the `.build` folder, the generation workflow will be executed, updating all affected images, documents, etc.
+Since such a commit will constitute a relevant change to the `.build` folder, the generation workflow will be executed, updating all affected images, documents, etc.
 
 == Document Types
 
 === Events Overview
 
-This document lists all known events that are emitted by any of "our" applications.
+This document lists all known events that are emitted by any of our application's components.
 
 Take a look link:documents/events.adoc[here].
 
 === Endpoints Overview
 
-This document lists all known components who have documented endpoints used by any of "our" applications.
-For each component, the used endpoints and who is using them are listed.
+This document lists all known components who have documented endpoints used by any of our components.
+For each of them, the used endpoints and who is using them are listed.
 
 Take a look link:documents/endpoints.adoc[here].
 
 == Diagram Types
 
-=== "Application Context" Diagram
+=== "Component Context" Diagram
 
-An "application context" diagram is focused on a specific application and shows that application's dependents and dependencies.
-Dependents are other components of the overall system that are dependent on the focus application (e.g. using its API).
-Dependencies are any components that are used by the focus application, like databases or other applications.
+A "component context" diagram is focused on a specific component and shows that component's dependents and dependencies.
+Dependents are other components of the overall system that are dependent on the focus component (e.g. using its API).
+Dependencies are any components that are used by the focus component, like databases or other components.
 
 ==== "Simple" Variants
 
@@ -96,8 +97,8 @@ image:diagrams/components/full_orthogonal/inventory-service.svg[]
 
 === "Applications Overview" Diagram
 
-An "applications overview" diagram combines the information of all applications into a single diagram.
-This gives us an overview of our whole system with all communication paths / dependencies.
+An "application overview" diagram combines the information of all components into a single diagram.
+This gives us an overview of our whole application with all communication paths / dependencies.
 
 .top-to-bottom
 image:diagrams/overview/top-to-bottom_poly/overview.svg[]

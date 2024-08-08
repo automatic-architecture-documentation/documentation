@@ -6,19 +6,16 @@ participant "'documentation'\nRepository" as dr
 
 dev -> sr : push some change
 activate sr
-sr -> sr : build application
-sr -> sr : publish 'order-service.json'
-activate sr
+sr -> sr : build component
 sr -> dr : checkout
 activate dr
 sr <--dr
 deactivate dr
+sr -> sr : combine component description parts
 sr -> dr : commit & push updated 'order-service.json'
 activate dr
-sr --> sr
 deactivate sr
 dr -> dr : generate diagrams, documents, etc.
-deactivate sr
 dr -> dr : commit & push updated files
 
 @enduml
