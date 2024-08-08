@@ -1,0 +1,51 @@
+name: "Update Component"
+description: "Downloads the parts of a component's architecture documentation, combines them and updates the existing file."
+
+inputs:
+  component-id:
+    description: "The ID of the component."
+    required: true
+  github-token:
+    description: "A GitHub token that can be used to write to the repositories content."
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: "Checkout"
+      uses: actions/checkout@v4
+      with:
+        repository: automatic-architecture-documentation/documentation
+        token: ${{ inputs.github-token }}
+    - name: "Setup Java"
+      uses: actions/setup-java@v4
+      with:
+        java-version: "17"
+        distribution: "temurin"
+    - name: "Setup Gradle"
+      uses: gradle/gradle-build-action@v3
+      with:
+        gradle-version: wrapper
+    - name: "Download Architecture Documentation Parts"
+      uses: actions/download-artifact@v4
+      with:
+        name: architecture-documentation-parts
+        path: .build/tmp/parts
+    - name: "Setup Gradle Wrapper"
+      working-directory: .build
+      shell: bash
+      run: chmod +x ./gradlew
+    - name: "Combine Parts"
+      working-directory: .build
+      shell: bash
+      run: './gradlew --no-daemon combineParts -PcomponentId=${{ inputs.component-id }}'
+    - name: "Commit & Push Changes"
+      shell: bash
+      run: |
+        git config --global user.name "Botty"
+        git config --global user.email "bot@example.com"
+        git add .build/src/json/components/${{ inputs.component-id }}.json
+        git diff --quiet --exit-code --cached || {
+          git commit -m "updated ${{ inputs.component-id }}.json"
+          git push origin HEAD:master
+        }
