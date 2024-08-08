@@ -8,19 +8,6 @@
     "distanceFromUs" : "OWNED"
   } ],
   "dependencies" : [ {
-    "id" : "order-database",
-    "type" : "DATABASE",
-    "distanceFromUs" : "OWNED"
-  }, {
-    "id" : "payment-service",
-    "type" : "BACKEND",
-    "distanceFromUs" : "CLOSE",
-    "credentials" : [ "JWT" ],
-    "httpEndpoints" : [ {
-      "method" : "POST",
-      "path" : "/payments"
-    } ]
-  }, {
     "id" : "inventory-service",
     "type" : "BACKEND",
     "distanceFromUs" : "OWNED",
@@ -32,6 +19,19 @@
       "method" : "POST",
       "path" : "/inventory/{productId}/reserve"
     } ]
+  }, {
+    "id" : "payment-service",
+    "type" : "BACKEND",
+    "distanceFromUs" : "CLOSE",
+    "credentials" : [ "JWT" ],
+    "httpEndpoints" : [ {
+      "method" : "POST",
+      "path" : "/payments"
+    } ]
+  }, {
+    "id" : "order-database",
+    "type" : "DATABASE",
+    "distanceFromUs" : "OWNED"
   } ],
   "events" : [ {
     "name" : "Order Canceled",
