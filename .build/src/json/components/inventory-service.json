@@ -43,5 +43,37 @@
         }
       ]
     }
-  ]
+  ],
+  "events" : [ {
+    "name" : "Product Sold Out",
+    "type" : "product.sold-out",
+    "description" : "Emitted whenever a product is completely sold out.",
+    "example" : "{\n  \"id\" : \"13200ae0-34e7-4180-9b06-5455121a5088\",\n  \"timestamp\" : \"2024-07-22T12:34:56.789Z\",\n  \"product\" : {\n    \"productId\" : \"a665ff94-13a5-499f-a530-3c6ff16a84da\"\n  }\n}",
+    "fields" : [ {
+      "property" : "id",
+      "type" : "UUID4",
+      "nullable" : false,
+      "description" : "The unique ID of the event."
+    }, {
+      "property" : "timestamp",
+      "type" : "ISO-8601 Date+Time (UTC)",
+      "nullable" : false,
+      "description" : "The exact instant the event occurred at its source."
+    }, {
+      "property" : "product",
+      "type" : "Object",
+      "nullable" : false
+    }, {
+      "property" : "product.productId",
+      "type" : "UUID4",
+      "nullable" : false,
+      "description" : "The ID of the product."
+    } ]
+  } ],
+  "messaging" : {
+    "publishedMessages" : [ {
+      "exchange" : "inventory-events",
+      "routingKey" : "product.sold-out"
+    } ]
+  }
 }
