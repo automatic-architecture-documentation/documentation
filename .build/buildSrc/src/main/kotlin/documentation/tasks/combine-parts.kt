@@ -84,7 +84,9 @@ fun loadPublishedMessages(sourceFolder: File): List<PublishedMessage> {
     val file = File(messagingFolder, "published-messages.jsonl")
     if (file.isFile) {
         return loadFromJsonListFile(file, PublishedMessage::class)
-            .distinct()
+            .groupBy(PublishedMessage::exchange, PublishedMessage::routingKeys)
+            .mapValues { (_, routingKeys) -> routingKeys.flatten().distinct() }
+            .map { (exchange, routingKeys) -> PublishedMessage(exchange, routingKeys) }
     }
     return emptyList()
 }

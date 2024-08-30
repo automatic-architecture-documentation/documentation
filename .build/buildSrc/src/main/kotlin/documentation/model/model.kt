@@ -71,7 +71,7 @@ data class Messaging(
 ) {
     data class PublishedMessage(
         val exchange: String,
-        val routingKey: String,
+        val routingKeys: List<String>,
     )
 
     data class ConsumedQueue(
