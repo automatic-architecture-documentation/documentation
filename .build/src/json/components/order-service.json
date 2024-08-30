@@ -107,10 +107,7 @@
   "messaging" : {
     "publishedMessages" : [ {
       "exchange" : "order-events",
-      "routingKey" : "order.canceled"
-    }, {
-      "exchange" : "order-events",
-      "routingKey" : "order.placed"
+      "routingKeys" : ["order.canceled", "order.placed"]
     } ],
     "consumedQueues" : [ {
       "name" : "inventory-events.order-service.product-sold-out",

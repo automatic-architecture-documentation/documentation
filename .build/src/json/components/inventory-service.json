@@ -73,7 +73,7 @@
   "messaging" : {
     "publishedMessages" : [ {
       "exchange" : "inventory-events",
-      "routingKey" : "product.sold-out"
+      "routingKeys" : [ "product.sold-out" ]
     } ]
   }
 }
