@@ -10,6 +10,9 @@ import documentation.model.Dependency
 import documentation.model.Dependent
 import documentation.model.Event
 import documentation.model.HttpEndpoint
+import documentation.model.Messaging
+import documentation.model.Messaging.ConsumedQueue
+import documentation.model.Messaging.PublishedMessage
 import java.io.File
 import kotlin.reflect.KClass
 
@@ -20,13 +23,16 @@ private val objectMapper = jacksonObjectMapper()
     .enable(SerializationFeature.INDENT_OUTPUT)
 
 fun generateComponentDescription(sourceFolder: File, targetFolder: File, applicationId: String) {
-    val baseApplicationDescription = loadBaseApplicationDescription(sourceFolder, applicationId)
-    val dependents = loadDependents(sourceFolder)
-    val dependencies = loadDependencies(sourceFolder)
-    val events = loadEvents(sourceFolder)
-
-    val applicationDescription = baseApplicationDescription
-        .copy(dependents = dependents, dependencies = dependencies, events = events)
+    val applicationDescription = loadBaseApplicationDescription(sourceFolder, applicationId)
+        .copy(
+            dependents = loadDependents(sourceFolder),
+            dependencies = loadDependencies(sourceFolder),
+            events = loadEvents(sourceFolder),
+            messaging = Messaging(
+                publishedMessages = loadPublishedMessages(sourceFolder),
+                consumedQueues = loadConsumedQueues(sourceFolder),
+            )
+        )
 
     val file = File(targetFolder, applicationDescription.id + ".json")
     objectMapper.writeValue(file, applicationDescription)
@@ -71,6 +77,28 @@ private fun loadEvents(sourceFolder: File): List<Event> =
 
 private fun loadEvent(file: File): Event {
     return objectMapper.readValue<Event>(file)
+}
+
+fun loadPublishedMessages(sourceFolder: File): List<PublishedMessage> {
+    val messagingFolder = File(sourceFolder, "messaging")
+    val file = File(messagingFolder, "published-messages.jsonl")
+    if (file.isFile) {
+        return loadFromJsonListFile(file, PublishedMessage::class)
+            .distinct()
+    }
+    return emptyList()
+}
+
+fun loadConsumedQueues(sourceFolder: File): List<ConsumedQueue> {
+    val messagingFolder = File(sourceFolder, "messaging")
+    val file = File(messagingFolder, "consumed-queues.jsonl")
+    if (file.isFile) {
+        return loadFromJsonListFile(file, ConsumedQueue::class)
+            .groupBy(ConsumedQueue::name, ConsumedQueue::bindings)
+            .mapValues { (_, bindings) -> bindings.flatten().distinct() }
+            .map { (name, bindings) -> ConsumedQueue(name, bindings) }
+    }
+    return emptyList()
 }
 
 private fun listJsonFilesInFolder(folder: File): List<File> =

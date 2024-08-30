@@ -27,6 +27,7 @@ data class Application(
     val dependents: List<Dependent> = emptyList(),
     val dependencies: List<Dependency> = emptyList(),
     val events: List<Event> = emptyList(),
+    val messaging: Messaging = Messaging(),
 ) : Component
 
 data class Dependent(
@@ -61,5 +62,25 @@ data class Event(
         val type: String,
         val nullable: Boolean,
         val description: String?,
+    )
+}
+
+data class Messaging(
+    val publishedMessages: List<PublishedMessage> = emptyList(),
+    val consumedQueues: List<ConsumedQueue> = emptyList(),
+) {
+    data class PublishedMessage(
+        val exchange: String,
+        val routingKey: String,
+    )
+
+    data class ConsumedQueue(
+        val name: String,
+        val bindings: List<Binding>,
+    )
+
+    data class Binding(
+        val exchange: String,
+        val routingKeyPattern: String,
     )
 }
