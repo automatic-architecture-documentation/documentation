@@ -10,6 +10,7 @@ import documentation.generators.plantuml.LineType
 import documentation.generators.plantuml.LineType.DEFAULT
 import documentation.generators.plantuml.LineType.ORTHOGONAL
 import documentation.generators.plantuml.LineType.POLY
+import documentation.generators.plantuml.MessagingDiagramGenerator
 import documentation.generators.plantuml.MultipleApplicationsDiagramGenerator
 import documentation.generators.plantuml.PlantUmlDiagramGenerator.generateDiagramAndSaveAsImage
 import documentation.model.Application
@@ -179,6 +180,21 @@ private fun generateApplicationsOverviewDiagram(targetFolder: File, generator: D
     val diagramSource = generator.plantUmlSource()
     generateDiagramAndSaveAsImage(diagramSource, targetFolder, "overview", FileFormat.PNG)
     generateDiagramAndSaveAsImage(diagramSource, targetFolder, "overview", FileFormat.SVG)
+}
+
+// MESSAGING DIAGRAMS
+
+fun generateMessagingDiagramsFromJson(srcFolder: File, rootFolder: File) {
+    val sourcesFolder = File(srcFolder, "json/components")
+    val targetFolder = File(rootFolder, "diagrams/messaging")
+
+    val applications = loadApplications(sourcesFolder)
+
+    val generator = MessagingDiagramGenerator(applications)
+    val diagramSource = generator.plantUmlSource()
+
+    generateDiagramAndSaveAsImage(diagramSource, targetFolder, "messaging", FileFormat.PNG)
+    generateDiagramAndSaveAsImage(diagramSource, targetFolder, "messaging", FileFormat.SVG)
 }
 
 // USED ENDPOINTS

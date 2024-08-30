@@ -24,7 +24,7 @@ abstract class AbstractDiagramGenerator(
 
     protected fun StringBuilder.appendComponentLine(component: DiagramComponent) =
         with(component) {
-            appendLine("""$type "$name" as $id $style""")
+            appendLine("""$type "$name" as $id ${style ?: ""}""")
         }
 
     protected fun StringBuilder.appendRelationshipLine(relationship: DiagramRelationship) =
@@ -75,18 +75,23 @@ abstract class AbstractDiagramGenerator(
 
     // CONVERTER
 
-    protected fun diagramComponent(component: Component) =
+    protected fun diagramComponent(component: Component, qualifier: String? = null) =
         DiagramComponent(
-            id = diagramComponentId(component),
+            id = diagramComponentId(component, qualifier),
             type = type(component),
             name = componentName(component.id),
             style = style(component)
         )
 
-    protected fun diagramRelationship(source: Component, target: Component): DiagramRelationship =
+    protected fun diagramRelationship(
+        source: Component,
+        target: Component,
+        sourceQualifier: String? = null,
+        targetQualifier: String? = null
+    ): DiagramRelationship =
         DiagramRelationship(
-            source = diagramComponentId(source),
-            target = diagramComponentId(target),
+            source = diagramComponentId(source, sourceQualifier),
+            target = diagramComponentId(target, targetQualifier),
             link = link(target),
             label = linkLabel(source, target),
         )
