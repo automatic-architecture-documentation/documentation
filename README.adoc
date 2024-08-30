@@ -105,3 +105,10 @@ image:diagrams/overview/top-to-bottom_poly/overview.svg[]
 
 .left-to-right
 image:diagrams/overview/left-to-right_poly/overview.svg[]
+
+=== "Messaging" Diagram
+
+A "messaging" diagram combines the messaging related information of all components into a single diagram.
+This gives us an overview of our asynchronous communication infrastructure.
+
+image:diagrams/messaging/messaging.svg[]
