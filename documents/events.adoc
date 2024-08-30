@@ -3,6 +3,53 @@
 
 = Events
 
+== Inventory Service
+
+=== Product Sold Out
+
+Emitted whenever a product is completely sold out.
+
+Type / Routing Key: `product.sold-out`
+
+.Product Sold Out Example
+[source,json]
+----
+{
+  "id" : "13200ae0-34e7-4180-9b06-5455121a5088",
+  "timestamp" : "2024-07-22T12:34:56.789Z",
+  "product" : {
+    "productId" : "a665ff94-13a5-499f-a530-3c6ff16a84da"
+  }
+}
+----
+
+.Product Sold Out Field Description
+[width=100%, cols="~,~,~,~"]
+|===
+|Property |Type |Nullable? |Description
+
+|`id`
+|UUID4
+|false
+|The unique ID of the event.
+
+|`timestamp`
+|ISO-8601 Date+Time (UTC)
+|false
+|The exact instant the event occurred at its source.
+
+|`product`
+|Object
+|false
+|
+
+|`product.productId`
+|UUID4
+|false
+|The ID of the product.
+
+|===
+
 == Order Service
 
 === Order Canceled
