@@ -27,6 +27,7 @@ data class Application(
     val dependents: List<Dependent> = emptyList(),
     val dependencies: List<Dependency> = emptyList(),
     val events: List<Event> = emptyList(),
+    val databases: List<Database> = emptyList(),
     val messaging: Messaging = Messaging(),
 ) : Component
 
@@ -82,5 +83,28 @@ data class Messaging(
     data class Binding(
         val exchange: String,
         val routingKeyPattern: String,
+    )
+}
+
+data class Database(
+    val id: String,
+    val name: String,
+    val type: String,
+    val description: String?,
+    val tables: List<Table> = emptyList(),
+) {
+    data class Table(
+        val name: String,
+        val description: String?,
+        val columns: List<Column> = emptyList(),
+    )
+
+    data class Column(
+        val name: String,
+        val dataType: String,
+        val defaultValue: String?,
+        val nullable: Boolean,
+        val description: String?,
+        val partOfPrimaryKey: Boolean,
     )
 }

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import documentation.model.Application
+import documentation.model.Database
 import documentation.model.Dependency
 import documentation.model.Dependent
 import documentation.model.Event
@@ -28,6 +29,7 @@ fun generateComponentDescription(sourceFolder: File, targetFolder: File, applica
             dependents = loadDependents(sourceFolder),
             dependencies = loadDependencies(sourceFolder),
             events = loadEvents(sourceFolder),
+            databases = loadDatabases(sourceFolder),
             messaging = Messaging(
                 publishedMessages = loadPublishedMessages(sourceFolder),
                 consumedQueues = loadConsumedQueues(sourceFolder),
@@ -101,6 +103,14 @@ fun loadConsumedQueues(sourceFolder: File): List<ConsumedQueue> {
             .map { (name, bindings) -> ConsumedQueue(name, bindings) }
     }
     return emptyList()
+}
+
+fun loadDatabases(sourceFolder: File): List<Database> =
+    listJsonFilesInFolder(File(sourceFolder, "databases"))
+        .map { file -> loadDatabase(file) }
+
+private fun loadDatabase(file: File): Database {
+    return objectMapper.readValue<Database>(file)
 }
 
 private fun listJsonFilesInFolder(folder: File): List<File> =

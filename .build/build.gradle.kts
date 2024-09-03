@@ -1,4 +1,5 @@
 import documentation.generateComponentDiagramsFromJson
+import documentation.generateDatabasesOverviewDocumentFromJson
 import documentation.generateDiagramsFromPlantUml
 import documentation.generateEndpointOverviewDocumentFromJson
 import documentation.generateEventsOverviewDocumentFromJson
@@ -11,6 +12,7 @@ tasks.register("generateFiles") {
     val rootFolder = project.rootDir.parentFile
     doLast {
         generateComponentDiagramsFromJson(srcFolder, rootFolder)
+        generateDatabasesOverviewDocumentFromJson(srcFolder, rootFolder)
         generateDiagramsFromPlantUml(srcFolder, rootFolder)
         generateEndpointOverviewDocumentFromJson(srcFolder, rootFolder)
         generateEventsOverviewDocumentFromJson(srcFolder, rootFolder)

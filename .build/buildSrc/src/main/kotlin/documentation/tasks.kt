@@ -1,5 +1,6 @@
 package documentation
 
+import documentation.generators.asciidoc.DatabasesOverviewGenerator
 import documentation.generators.asciidoc.EndpointsOverviewGenerator
 import documentation.generators.asciidoc.EventsOverviewGenerator
 import documentation.generators.plantuml.ApplicationContextDiagramGenerator
@@ -222,6 +223,21 @@ fun generateEventsOverviewDocumentFromJson(srcFolder: File, rootFolder: File) {
     val applications = loadApplications(sourcesFolder)
 
     val generator = EventsOverviewGenerator(applications)
+    val source = generator.asciiDocSource()
+
+    createOrReplaceFile(targetFile, source)
+}
+
+// DATABASES
+
+fun generateDatabasesOverviewDocumentFromJson(srcFolder: File, rootFolder: File) {
+    val sourcesFolder = File(srcFolder, "json/components")
+    val targetFolder = File(rootFolder, "documents")
+    val targetFile = File(targetFolder, "databases.adoc")
+
+    val applications = loadApplications(sourcesFolder)
+
+    val generator = DatabasesOverviewGenerator(applications)
     val source = generator.asciiDocSource()
 
     createOrReplaceFile(targetFile, source)
