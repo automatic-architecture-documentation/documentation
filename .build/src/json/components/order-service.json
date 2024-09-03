@@ -104,10 +104,109 @@
       "description" : "The status of the order. Might have one of the following values: PLACED, PROCESSING, COMPLETED, CANCELLED"
     } ]
   } ],
+  "databases" : [ {
+    "id" : "order-service-db",
+    "name" : "Order Service Database",
+    "type" : "PostgreSQL",
+    "description" : "The database of the Order Service.",
+    "tables" : [ {
+      "name" : "addresses",
+      "description" : "Stores saved addresses of customers.",
+      "columns" : [ {
+        "name" : "id",
+        "dataType" : "uuid",
+        "nullable" : false,
+        "description" : "The unique ID of this address.",
+        "partOfPrimaryKey" : true
+      }, {
+        "name" : "customer_id",
+        "dataType" : "uuid",
+        "nullable" : false,
+        "description" : "The unique ID of the customer this address belongs to.",
+        "partOfPrimaryKey" : false
+      }, {
+        "name" : "name",
+        "dataType" : "text",
+        "nullable" : true,
+        "description" : "The name of the customer used for this address.",
+        "partOfPrimaryKey" : false
+      }, {
+        "name" : "street",
+        "dataType" : "text",
+        "nullable" : true,
+        "description" : "The name of the street incl. house numbers and other additions.",
+        "partOfPrimaryKey" : false
+      }, {
+        "name" : "city",
+        "dataType" : "text",
+        "nullable" : true,
+        "description" : "The name of the city.",
+        "partOfPrimaryKey" : false
+      }, {
+        "name" : "zip_code",
+        "dataType" : "text",
+        "nullable" : true,
+        "description" : "The ZIP code.",
+        "partOfPrimaryKey" : false
+      }, {
+        "name" : "country",
+        "dataType" : "character (2)",
+        "nullable" : true,
+        "description" : "A ISO 3166-2 country code.",
+        "partOfPrimaryKey" : false
+      } ]
+    }, {
+      "name" : "orders",
+      "description" : "Central table of this service. Stores all orders and their state.",
+      "columns" : [ {
+        "name" : "id",
+        "dataType" : "uuid",
+        "nullable" : false,
+        "description" : "The unique ID of this address.",
+        "partOfPrimaryKey" : true
+      }, {
+        "name" : "customer_id",
+        "dataType" : "uuid",
+        "nullable" : false,
+        "description" : "The unique ID of the customer from the central customer management service.",
+        "partOfPrimaryKey" : false
+      }, {
+        "name" : "ordered_at",
+        "dataType" : "timestamp with time zone",
+        "nullable" : false,
+        "description" : "The exact point in time when this order was submitted by the customer.",
+        "partOfPrimaryKey" : false
+      }, {
+        "name" : "dispatched_at",
+        "dataType" : "timestamp with time zone",
+        "nullable" : true,
+        "partOfPrimaryKey" : false
+      }, {
+        "name" : "billing_address_id",
+        "dataType" : "uuid",
+        "nullable" : false,
+        "description" : "ID of the address used for billing. Foreign key from 'addresses' table.",
+        "partOfPrimaryKey" : false
+      }, {
+        "name" : "shipping_address_id",
+        "dataType" : "uuid",
+        "nullable" : false,
+        "description" : "ID of the address used for shipping. Foreign key from 'addresses' table.",
+        "partOfPrimaryKey" : false
+      }, {
+        "name" : "status",
+        "dataType" : "text",
+        "defaultValue" : "'OPEN'::text",
+        "nullable" : false,
+        "description" : "The status of the order. Can be 'OPEN', 'PROCESSING', 'DISPATCHED', 'DELIVERED', 'CANCELED' or 'FAILED'",
+        "partOfPrimaryKey" : false
+      } ]
+    } ]
+  } ],
   "messaging" : {
     "publishedMessages" : [ {
       "exchange" : "order-events",
-      "routingKeys" : ["order.canceled", "order.placed"]
+      "routingKeys" : [ "order.canceled", "order.placed" ]
     } ],
     "consumedQueues" : [ {
       "name" : "inventory-events.order-service.product-sold-out",
