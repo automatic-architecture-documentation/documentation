@@ -32,6 +32,12 @@ Since such a commit will constitute a relevant change to the `.build` folder, th
 
 == Document Types
 
+=== Databases Overview
+
+This document lists all known databases and their internal structure.
+
+Take a look link:documents/databases.adoc[here].
+
 === Events Overview
 
 This document lists all known events that are emitted by any of our application's components.

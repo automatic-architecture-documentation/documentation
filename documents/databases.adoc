@@ -1,5 +1,117 @@
 :toc: left
-:toclevels: 2
+:toclevels: 3
 
 = Databases
+
+== Order Service Database
+
+The database of the Order Service.
+
+Type: PostgreSQL
+
+=== Table: addresses
+
+Stores saved addresses of customers.
+
+.addresses columns
+[width=100%, cols="~,~,~,~,~"]
+|===
+|Column |Type |Nullable? |Default Value |Description
+
+|`🔑 id`
+|uuid
+|false
+|
+|The unique ID of this address.
+
+|`customer_id`
+|uuid
+|false
+|
+|The unique ID of the customer this address belongs to.
+
+|`name`
+|text
+|true
+|
+|The name of the customer used for this address.
+
+|`street`
+|text
+|true
+|
+|The name of the street incl. house numbers and other additions.
+
+|`city`
+|text
+|true
+|
+|The name of the city.
+
+|`zip_code`
+|text
+|true
+|
+|The ZIP code.
+
+|`country`
+|character (2)
+|true
+|
+|A ISO 3166-2 country code.
+
+|===
+
+=== Table: orders
+
+Central table of this service. Stores all orders and their state.
+
+.orders columns
+[width=100%, cols="~,~,~,~,~"]
+|===
+|Column |Type |Nullable? |Default Value |Description
+
+|`🔑 id`
+|uuid
+|false
+|
+|The unique ID of this address.
+
+|`customer_id`
+|uuid
+|false
+|
+|The unique ID of the customer from the central customer management service.
+
+|`ordered_at`
+|timestamp with time zone
+|false
+|
+|The exact point in time when this order was submitted by the customer.
+
+|`dispatched_at`
+|timestamp with time zone
+|true
+|
+|
+
+|`billing_address_id`
+|uuid
+|false
+|
+|ID of the address used for billing. Foreign key from 'addresses' table.
+
+|`shipping_address_id`
+|uuid
+|false
+|
+|ID of the address used for shipping. Foreign key from 'addresses' table.
+
+|`status`
+|text
+|false
+|'OPEN'::text
+|The status of the order. Can be 'OPEN', 'PROCESSING', 'DISPATCHED', 'DELIVERED', 'CANCELED' or 'FAILED'
+
+|===
 
