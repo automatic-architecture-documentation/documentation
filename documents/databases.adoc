@@ -93,7 +93,7 @@ Central table of this service. Stores all orders and their state.
 |timestamp with time zone
 |true
 |
-|
+|The exact point in time when this order was dispatched to the customer.
 
 |`billing_address_id`
 |uuid
