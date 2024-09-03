@@ -180,6 +180,7 @@
         "name" : "dispatched_at",
         "dataType" : "timestamp with time zone",
         "nullable" : true,
+        "description" : "The exact point in time when this order was dispatched to the customer.",
         "partOfPrimaryKey" : false
       }, {
         "name" : "billing_address_id",
