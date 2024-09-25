@@ -12,6 +12,15 @@
     "type" : "DATABASE",
     "distanceFromUs" : "OWNED"
   }, {
+    "id" : "notification-service",
+    "type" : "BACKEND",
+    "distanceFromUs" : "CLOSE",
+    "credentials" : [ "JWT" ],
+    "httpEndpoints" : [ {
+      "method" : "POST",
+      "path" : "/notifications/customer/{customerId}/order-confirmation"
+    } ]
+  }, {
     "id" : "inventory-service",
     "type" : "BACKEND",
     "distanceFromUs" : "OWNED",
