@@ -3,63 +3,63 @@
     {
       "id": "frontend",
       "name": "Frontend",
-      "groupId": "application",
-      "systemId": "platform"
+      "groupId": "team",
+      "systemId": "application"
     },
     {
       "id": "order-service",
       "name": "Order Service",
-      "groupId": "application",
-      "systemId": "platform"
+      "groupId": "team",
+      "systemId": "application"
     },
     {
       "id": "order-database",
       "name": "database",
-      "groupId": "application",
-      "systemId": "platform"
+      "groupId": "team",
+      "systemId": "application"
     },
     {
       "id": "inventory-service",
       "name": "Inventory Service",
-      "groupId": "application",
-      "systemId": "platform"
+      "groupId": "team",
+      "systemId": "application"
     },
     {
       "id": "inventory-database",
       "name": "database",
-      "groupId": "application",
-      "systemId": "platform"
+      "groupId": "team",
+      "systemId": "application"
     },
     {
       "id": "payment-service",
       "name": "Payment Service",
-      "systemId": "platform"
+      "systemId": "application"
     },
     {
       "id": "notification-service",
       "name": "Notification Service",
-      "systemId": "platform"
+      "systemId": "application"
     },
     {
       "id": "warehouse-service",
       "name": "Warehouse Service",
-      "systemId": "other-project"
+      "systemId": "third-party"
     }
   ],
   "groups": [
     {
-      "id": "application",
-      "name": "Application"
+      "id": "team",
+      "name": "Our Team"
     }
   ],
   "systems": [
     {
-      "id": "platform",
-      "name": "Platform"
+      "id": "application",
+      "name": "Application"
     },
     {
-      "id": "other-project",
-      "name": "Other Project"
+      "id": "third-party",
+      "name": "3rd Party"
     }
   ]
 }
