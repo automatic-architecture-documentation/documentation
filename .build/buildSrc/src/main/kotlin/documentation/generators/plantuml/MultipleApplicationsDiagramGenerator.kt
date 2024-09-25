@@ -51,7 +51,7 @@ class MultipleApplicationsDiagramGenerator(
             appendLine("@startuml")
             appendLine("'https://plantuml.com/deployment-diagram")
             appendLine()
-            appendLine("scale 2")
+            appendLine("scale 1")
             appendLine()
             appendLine(options.direction)
             appendLine()

@@ -82,7 +82,7 @@ class ApplicationContextDiagramGenerator(
             appendLine("@startuml")
             appendLine("'https://plantuml.com/deployment-diagram")
             appendLine()
-            appendLine("scale 2")
+            appendLine("scale 1")
             appendLine()
             appendLine(LEFT_TO_RIGHT)
             appendLine()
