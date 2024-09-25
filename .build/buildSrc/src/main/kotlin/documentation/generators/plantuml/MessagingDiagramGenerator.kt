@@ -65,6 +65,8 @@ class MessagingDiagramGenerator(
             appendLine("@startuml")
             appendLine("'https://plantuml.com/deployment-diagram")
             appendLine()
+            appendLine("scale 2")
+            appendLine()
             appendLine("left to right direction")
             appendLine()
             appendLine(options.lineType)
