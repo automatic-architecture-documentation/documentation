@@ -52,9 +52,9 @@ abstract class AbstractDiagramGenerator(
             .sortedBy(Distance::ordinal)
             .map { distance ->
                 val description = when (distance) {
-                    OWNED -> "our application"
-                    CLOSE -> "same platform"
-                    DISTANT -> "other project"
+                    OWNED -> "our components"
+                    CLOSE -> "same application"
+                    DISTANT -> "3rd party"
                 }
                 distance to description
             }
