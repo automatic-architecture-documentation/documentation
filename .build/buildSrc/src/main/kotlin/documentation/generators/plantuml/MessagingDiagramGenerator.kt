@@ -1,6 +1,6 @@
 package documentation.generators.plantuml
 
-import documentation.model.Application
+import documentation.model.ApplicationComponent
 import documentation.model.ComponentType
 import documentation.model.ComponentType.BACKEND
 import documentation.model.Messaging.Binding
@@ -9,7 +9,7 @@ import documentation.model.Messaging.PublishedMessage
 import documentation.model.componentName
 
 class MessagingDiagramGenerator(
-    private val applications: List<Application>,
+    private val components: List<ApplicationComponent>,
     private val options: Options = Options(),
 ) : AbstractDiagramGenerator(options) {
 
@@ -91,7 +91,7 @@ class MessagingDiagramGenerator(
     private fun diagramQueueComponent(it: String) =
         DiagramComponent(id = diagramQueueId(it), type = "queue", name = it, style = null)
 
-    private fun publisherToExchangeRelationship(publisher: Application, exchange: String) =
+    private fun publisherToExchangeRelationship(publisher: ApplicationComponent, exchange: String) =
         DiagramRelationship(
             source = diagramComponentId(publisher, "producer"),
             target = diagramExchangeId(exchange),
@@ -106,22 +106,22 @@ class MessagingDiagramGenerator(
             label = routingKeyPattern
         )
 
-    private fun queueToConsumerRelationship(queue: String, consumer: Application) =
+    private fun queueToConsumerRelationship(queue: String, consumer: ApplicationComponent) =
         DiagramRelationship(
             source = diagramQueueId(queue),
             target = diagramComponentId(consumer, "consumer"),
             link = "-->",
         )
 
-    private fun publishingNote(application: Application) = DiagramNote(
-        target = diagramComponentId(application, "producer"),
-        text = publishingNoteText(application).trim(),
+    private fun publishingNote(component: ApplicationComponent) = DiagramNote(
+        target = diagramComponentId(component, "producer"),
+        text = publishingNoteText(component).trim(),
         position = "left"
     )
 
-    private fun publishingNoteText(application: Application) =
+    private fun publishingNoteText(component: ApplicationComponent) =
         buildString {
-            application.messaging.publishedMessages
+            component.messaging.publishedMessages
                 .forEach { (exchange, routingKeys) ->
                     appendLine("**$exchange**:")
                     routingKeys.forEach { routingKey ->
@@ -135,25 +135,25 @@ class MessagingDiagramGenerator(
         (getPublishingExchangeNames() + getConsumingExchangeNames()).distinct()
 
     private fun getPublishingExchangeNames(): List<String> =
-        applications
+        components
             .flatMap { application -> application.messaging.publishedMessages.map(PublishedMessage::exchange) }
             .distinct()
 
     private fun getConsumingExchangeNames(): List<String> =
-        applications
+        components
             .flatMap { application -> application.messaging.consumedQueues.flatMap { it.bindings.map(Binding::exchange) } }
             .distinct()
 
     private fun getAllQueueNames(): List<String> =
-        applications
+        components
             .flatMap { application -> application.messaging.consumedQueues.map(ConsumedQueue::name) }
             .distinct()
 
-    private fun publishingApplications() = applications
+    private fun publishingApplications() = components
         .filter { it.messaging.publishedMessages.isNotEmpty() }
         .sortedBy { componentName(it.id) }
 
-    private fun consumingApplications() = applications
+    private fun consumingApplications() = components
         .filter { it.messaging.consumedQueues.isNotEmpty() }
         .sortedBy { componentName(it.id) }
 

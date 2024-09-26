@@ -20,7 +20,7 @@ sealed interface Component {
         get() = systemIdOfComponent(id)
 }
 
-data class Application(
+data class ApplicationComponent(
     override val id: String,
     override val type: ComponentType?,
     override val distanceFromUs: Distance?,

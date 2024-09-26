@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import documentation.model.Application
+import documentation.model.ApplicationComponent
 import documentation.model.Database
 import documentation.model.Dependency
 import documentation.model.Dependent
@@ -24,7 +24,7 @@ private val objectMapper = jacksonObjectMapper()
     .enable(SerializationFeature.INDENT_OUTPUT)
 
 fun generateComponentDescription(sourceFolder: File, targetFolder: File, applicationId: String) {
-    val applicationDescription = loadBaseApplicationDescription(sourceFolder, applicationId)
+    val applicationDescription = loadBaseApplicationComponentDescription(sourceFolder, applicationId)
         .copy(
             dependents = loadDependents(sourceFolder),
             dependencies = loadDependencies(sourceFolder),
@@ -40,10 +40,10 @@ fun generateComponentDescription(sourceFolder: File, targetFolder: File, applica
     objectMapper.writeValue(file, applicationDescription)
 }
 
-private fun loadBaseApplicationDescription(sourceFolder: File, applicationId: String): Application {
+private fun loadBaseApplicationComponentDescription(sourceFolder: File, applicationId: String): ApplicationComponent {
     val file = File(sourceFolder, "$applicationId.json")
     check(file.isFile) { "File not found: $file" }
-    return objectMapper.readValue<Application>(file)
+    return objectMapper.readValue<ApplicationComponent>(file)
 }
 
 private fun loadDependents(sourceFolder: File): List<Dependent> =

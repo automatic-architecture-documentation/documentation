@@ -1,6 +1,6 @@
 package documentation.generators.asciidoc
 
-import documentation.model.Application
+import documentation.model.ApplicationComponent
 import documentation.model.ComponentType.BACKEND
 import documentation.model.Dependency
 import documentation.model.Distance.CLOSE
@@ -9,18 +9,18 @@ import documentation.model.Distance.OWNED
 import documentation.model.HttpEndpoint
 import documentation.model.componentName
 
-class EndpointsOverviewGenerator(applications: List<Application>) {
+class EndpointsOverviewGenerator(applicationComponents: List<ApplicationComponent>) {
 
     private val relevantComponentTypes = setOf(BACKEND)
 
-    private val ourApplicationsAndTheirDependencies = applications
+    private val ourComponentsAndTheirDependencies = applicationComponents
         .filter { it.distanceFromUs == OWNED }
         .map { application -> application to application.dependencies }
 
     fun asciiDocSource(): String =
         buildString {
 
-            val allCalledComponents = ourApplicationsAndTheirDependencies
+            val allCalledComponents = ourComponentsAndTheirDependencies
                 .flatMap { (_, dependencies) -> dependencies }
                 .filter { dependency -> dependency.type in relevantComponentTypes }
                 .filter { dependency -> dependency.httpEndpoints.isNotEmpty() }
@@ -96,7 +96,7 @@ class EndpointsOverviewGenerator(applications: List<Application>) {
     }
 
     private fun findOurCallingApplicationIds(dependencyId: String, endpoint: HttpEndpoint): List<String> =
-        ourApplicationsAndTheirDependencies
+        ourComponentsAndTheirDependencies
             .filter { (_, dependencies) -> dependencies.any { it.id == dependencyId } }
             .filter { (_, dependencies) -> dependencies.flatMap { it.httpEndpoints }.contains(endpoint) }
             .map { (application, _) -> application.id }

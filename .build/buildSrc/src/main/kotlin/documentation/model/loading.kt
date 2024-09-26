@@ -10,7 +10,7 @@ internal val loadingObjectMapper = jacksonObjectMapper()
     .disable(FAIL_ON_UNKNOWN_PROPERTIES)
     .enable(READ_UNKNOWN_ENUM_VALUES_AS_NULL)
 
-fun loadApplications(sourceFolder: File): List<Application> {
+fun loadApplications(sourceFolder: File): List<ApplicationComponent> {
     check(sourceFolder.isDirectory)
     return sourceFolder.listFiles()!!
         .filter { file -> file.extension == "json" }

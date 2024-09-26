@@ -1,12 +1,12 @@
 package documentation.generators.asciidoc
 
-import documentation.model.Application
+import documentation.model.ApplicationComponent
 import documentation.model.Distance.OWNED
 import documentation.model.componentName
 
-class EventsOverviewGenerator(applications: List<Application>) {
+class EventsOverviewGenerator(applicationComponents: List<ApplicationComponent>) {
 
-    private val ourApplicationsWithEvents = applications
+    private val ourComponentsWithEvents = applicationComponents
         .filter { it.distanceFromUs == OWNED }
         .filter { it.events.isNotEmpty() }
         .sortedBy { componentName(it.id) }
@@ -18,7 +18,7 @@ class EventsOverviewGenerator(applications: List<Application>) {
             appendLine()
             appendLine("= Events")
             appendLine()
-            ourApplicationsWithEvents
+            ourComponentsWithEvents
                 .forEach { application ->
                     appendLine("== ${componentName(application.id)}")
                     appendLine()

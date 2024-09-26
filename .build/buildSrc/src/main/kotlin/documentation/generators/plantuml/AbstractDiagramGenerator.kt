@@ -1,6 +1,6 @@
 package documentation.generators.plantuml
 
-import documentation.model.Application
+import documentation.model.ApplicationComponent
 import documentation.model.Component
 import documentation.model.ComponentType
 import documentation.model.Dependency
@@ -41,11 +41,11 @@ abstract class AbstractDiagramGenerator(
             appendLine()
         }
 
-    protected fun StringBuilder.appendLegend(application: Application) =
-        appendLegend(listOf(application))
+    protected fun StringBuilder.appendLegend(component: ApplicationComponent) =
+        appendLegend(listOf(component))
 
-    protected fun StringBuilder.appendLegend(applications: Iterable<Application>) {
-        val distances = applications.asSequence()
+    protected fun StringBuilder.appendLegend(components: Iterable<ApplicationComponent>) {
+        val distances = components.asSequence()
             .flatMap { it.dependencies.map(Dependency::distanceFromUs) + it.distanceFromUs }
             .distinct()
             .filterNotNull()

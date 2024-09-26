@@ -14,7 +14,7 @@ import documentation.generators.plantuml.LineType.POLY
 import documentation.generators.plantuml.MessagingDiagramGenerator
 import documentation.generators.plantuml.MultipleApplicationsDiagramGenerator
 import documentation.generators.plantuml.PlantUmlDiagramGenerator.generateDiagramAndSaveAsImage
-import documentation.model.Application
+import documentation.model.ApplicationComponent
 import documentation.model.ComponentType.BACKEND
 import documentation.model.ComponentType.FRONTEND
 import documentation.model.loadApplications
@@ -64,39 +64,39 @@ fun generateComponentDiagramsFromJson(srcFolder: File, rootFolder: File) {
         }
 }
 
-private fun generateSimpleApplicationContextDiagram(application: Application, targetFolder: File) {
+private fun generateSimpleApplicationContextDiagram(component: ApplicationComponent, targetFolder: File) {
     lineTypes { lineType, name ->
         val targetSubFolder = File(targetFolder, "simple_$name")
         val generator = ApplicationContextDiagramGenerator(
-            application = application,
+            applicationComponent = component,
             options = ApplicationContextDiagramGenerator.Options(
                 lineType = lineType,
             ),
         )
-        generateApplicationContextDiagram(application, targetSubFolder, generator)
+        generateApplicationContextDiagram(component, targetSubFolder, generator)
     }
 }
 
-private fun generateBoundaryApplicationContextDiagram(application: Application, targetFolder: File) {
+private fun generateBoundaryApplicationContextDiagram(component: ApplicationComponent, targetFolder: File) {
     lineTypes { lineType, name ->
         val targetSubFolder = File(targetFolder, "boundary_$name")
         val generator = ApplicationContextDiagramGenerator(
-            application = application,
+            applicationComponent = component,
             options = ApplicationContextDiagramGenerator.Options(
                 includeSystemBoundaries = true,
                 includeGroupBoundaries = true,
                 lineType = lineType,
             )
         )
-        generateApplicationContextDiagram(application, targetSubFolder, generator)
+        generateApplicationContextDiagram(component, targetSubFolder, generator)
     }
 }
 
-private fun generateHttpApplicationContextDiagram(application: Application, targetFolder: File) {
+private fun generateHttpApplicationContextDiagram(component: ApplicationComponent, targetFolder: File) {
     lineTypes { lineType, name ->
         val targetSubFolder = File(targetFolder, "http_$name")
         val generator = ApplicationContextDiagramGenerator(
-            application = application,
+            applicationComponent = component,
             options = ApplicationContextDiagramGenerator.Options(
                 includedComponentTypes = setOf(BACKEND, FRONTEND),
                 includeCredentials = true,
@@ -104,15 +104,15 @@ private fun generateHttpApplicationContextDiagram(application: Application, targ
                 lineType = lineType,
             )
         )
-        generateApplicationContextDiagram(application, targetSubFolder, generator)
+        generateApplicationContextDiagram(component, targetSubFolder, generator)
     }
 }
 
-private fun generateFullApplicationContextDiagram(application: Application, targetFolder: File) {
+private fun generateFullApplicationContextDiagram(component: ApplicationComponent, targetFolder: File) {
     lineTypes { lineType, name ->
         val targetSubFolder = File(targetFolder, "full_$name")
         val generator = ApplicationContextDiagramGenerator(
-            application = application,
+            applicationComponent = component,
             options = ApplicationContextDiagramGenerator.Options(
                 includeSystemBoundaries = true,
                 includeGroupBoundaries = true,
@@ -121,18 +121,18 @@ private fun generateFullApplicationContextDiagram(application: Application, targ
                 lineType = lineType,
             )
         )
-        generateApplicationContextDiagram(application, targetSubFolder, generator)
+        generateApplicationContextDiagram(component, targetSubFolder, generator)
     }
 }
 
 private fun generateApplicationContextDiagram(
-    application: Application,
+    component: ApplicationComponent,
     targetFolder: File,
     generator: DiagramGenerator
 ) {
     val diagramSource = generator.plantUmlSource()
-    generateDiagramAndSaveAsImage(diagramSource, targetFolder, application.id, FileFormat.PNG)
-    generateDiagramAndSaveAsImage(diagramSource, targetFolder, application.id, FileFormat.SVG)
+    generateDiagramAndSaveAsImage(diagramSource, targetFolder, component.id, FileFormat.PNG)
+    generateDiagramAndSaveAsImage(diagramSource, targetFolder, component.id, FileFormat.SVG)
 }
 
 // APPLICATIONS OVERVIEW DIAGRAMS
@@ -147,11 +147,11 @@ fun generateOverviewDiagramsFromJson(srcFolder: File, rootFolder: File) {
     generateTopToBottomOverviewDiagramsFromJson(targetFolder, applications)
 }
 
-private fun generateLeftToRightOverviewDiagramsFromJson(targetFolder: File, applications: List<Application>) {
+private fun generateLeftToRightOverviewDiagramsFromJson(targetFolder: File, components: List<ApplicationComponent>) {
     lineTypes { lineType, name ->
         val targetSubFolder = File(targetFolder, "left-to-right_$name")
         val generator = MultipleApplicationsDiagramGenerator(
-            applications = applications,
+            applicationComponents = components,
             options = MultipleApplicationsDiagramGenerator.Options(
                 direction = LEFT_TO_RIGHT,
                 lineType = lineType,
@@ -162,11 +162,11 @@ private fun generateLeftToRightOverviewDiagramsFromJson(targetFolder: File, appl
     }
 }
 
-private fun generateTopToBottomOverviewDiagramsFromJson(targetFolder: File, applications: List<Application>) {
+private fun generateTopToBottomOverviewDiagramsFromJson(targetFolder: File, components: List<ApplicationComponent>) {
     lineTypes { lineType, name ->
         val targetSubFolder = File(targetFolder, "top-to-bottom_$name")
         val generator = MultipleApplicationsDiagramGenerator(
-            applications = applications,
+            applicationComponents = components,
             options = MultipleApplicationsDiagramGenerator.Options(
                 direction = TOP_TO_BOTTOM,
                 lineType = lineType,

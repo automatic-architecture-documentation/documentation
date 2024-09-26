@@ -1,16 +1,16 @@
 package documentation.generators.asciidoc
 
-import documentation.model.Application
+import documentation.model.ApplicationComponent
 import documentation.model.Database
 import documentation.model.Database.Table
 import documentation.model.Distance.OWNED
 
-class DatabasesOverviewGenerator(applications: List<Application>) {
+class DatabasesOverviewGenerator(applicationComponents: List<ApplicationComponent>) {
 
     private val keyEmoji = "\uD83D\uDD11"
-    private val ourDatabases = applications
+    private val ourDatabases = applicationComponents
         .filter { it.distanceFromUs == OWNED }
-        .flatMap(Application::databases)
+        .flatMap(ApplicationComponent::databases)
         .sortedBy(Database::name)
 
     fun asciiDocSource(): String =

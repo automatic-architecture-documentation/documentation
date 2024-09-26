@@ -1,12 +1,11 @@
 package documentation.generators.plantuml
 
 import documentation.generators.plantuml.DiagramDirection.LEFT_TO_RIGHT
-import documentation.model.Application
+import documentation.model.ApplicationComponent
 import documentation.model.Component
 import documentation.model.ComponentType
 import documentation.model.ComponentType.DATABASE
 import documentation.model.Dependency
-import documentation.model.Dependent
 import documentation.model.Distance.OWNED
 import documentation.model.groupName
 import documentation.model.systemName
@@ -15,7 +14,7 @@ import kotlin.contracts.contract
 
 @OptIn(ExperimentalContracts::class)
 class ApplicationContextDiagramGenerator(
-    private val application: Application,
+    private val applicationComponent: ApplicationComponent,
     private val options: Options = Options(),
 ) : AbstractDiagramGenerator(options) {
 
@@ -36,21 +35,21 @@ class ApplicationContextDiagramGenerator(
     private val systemsAndGroups: List<Pair<String?, String?>>
 
     init {
-        val dependents = application.dependents.filter(::typeIsIncluded)
-        val dependencies = application.dependencies.filter(::typeIsIncluded)
+        val dependents = applicationComponent.dependents.filter(::typeIsIncluded)
+        val dependencies = applicationComponent.dependencies.filter(::typeIsIncluded)
 
         components = buildList {
             addAll(dependents)
-            add(application)
+            add(applicationComponent)
             addAll(dependencies)
         }
 
         relationships = buildList {
             dependents
-                .map { source -> diagramRelationship(source, application) }
+                .map { source -> diagramRelationship(source, applicationComponent) }
                 .forEach(::add)
             dependencies
-                .map { target -> diagramRelationship(application, target) }
+                .map { target -> diagramRelationship(applicationComponent, target) }
                 .forEach(::add)
         }
 
@@ -114,7 +113,7 @@ class ApplicationContextDiagramGenerator(
                     appendRelationshipLine(relationship)
                 }
             appendLine()
-            appendLegend(application)
+            appendLegend(applicationComponent)
             appendLine()
             appendLine("@enduml")
         }
@@ -133,7 +132,7 @@ class ApplicationContextDiagramGenerator(
 
     override fun style(component: Component): String =
         when {
-            component is Application -> "#skyblue;line.bold"
+            component is ApplicationComponent -> "#skyblue;line.bold"
             component.type == DATABASE -> ""
             else -> super.style(component)
         }
