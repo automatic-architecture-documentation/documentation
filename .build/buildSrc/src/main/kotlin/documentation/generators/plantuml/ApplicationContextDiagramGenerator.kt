@@ -134,7 +134,6 @@ class ApplicationContextDiagramGenerator(
     override fun style(component: Component): String =
         when {
             component is Application -> "#skyblue;line.bold"
-            component is Dependent -> "#lightgrey"
             component.type == DATABASE -> ""
             else -> super.style(component)
         }
