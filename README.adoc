@@ -30,27 +30,6 @@ If this file is different from its current version it is committed.
 
 Since such a commit will constitute a relevant change to the `.build` folder, the generation workflow will be executed, updating all affected images, documents, etc.
 
-== Document Types
-
-=== Databases Overview
-
-This document lists all known databases and their internal structure.
-
-Take a look link:documents/databases.adoc[here].
-
-=== Events Overview
-
-This document lists all known events that are emitted by any of our application's components.
-
-Take a look link:documents/events.adoc[here].
-
-=== Endpoints Overview
-
-This document lists all known components who have documented endpoints used by any of our components.
-For each of them, the used endpoints and who is using them are listed.
-
-Take a look link:documents/endpoints.adoc[here].
-
 == Diagram Types
 
 === "Component Context" Diagram
@@ -88,19 +67,6 @@ image:diagrams/components/http_poly/order-service.svg[]
 .inventory-service
 image:diagrams/components/http_poly/inventory-service.svg[]
 
-==== "Full" Variants
-
-The "full" variant renders _all available data_, including grouping all components by their `system` and `group` properties.
-
-.frontend
-image:diagrams/components/full_orthogonal/frontend.svg[]
-
-.order-service
-image:diagrams/components/full_orthogonal/order-service.svg[]
-
-.inventory-service
-image:diagrams/components/full_orthogonal/inventory-service.svg[]
-
 === "Applications Overview" Diagram
 
 An "application overview" diagram combines the information of all components into a single diagram.
@@ -118,3 +84,24 @@ A "messaging" diagram combines the messaging related information of all componen
 This gives us an overview of our asynchronous communication infrastructure.
 
 image:diagrams/messaging/messaging.svg[]
+
+== Document Types
+
+=== Databases Overview
+
+This document lists all known databases and their internal structure.
+
+Take a look link:documents/databases.adoc[here].
+
+=== Endpoints Overview
+
+This document lists all known components who have documented endpoints used by any of our components.
+For each of them, the used endpoints and who is using them are listed.
+
+Take a look link:documents/endpoints.adoc[here].
+
+=== Events Overview
+
+This document lists all known events that are emitted by any of our application's components.
+
+Take a look link:documents/events.adoc[here].
