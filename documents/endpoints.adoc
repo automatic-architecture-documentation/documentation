@@ -24,6 +24,7 @@ NOTE: This overview includes all endpoints _known_ to be called.
 
 === Notification Service
 
+* `POST /notifications/customer/{customerId}/order-confirmation` used by _Order Service_
 * `POST /notifications/low-stock` used by _Inventory Service_
 
 === Payment Service
